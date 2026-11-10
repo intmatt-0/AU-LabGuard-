@@ -1,0 +1,514 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>LabGuard+ Mobile Student Form — Arellano University Jose Rizal Campus</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        font-family: 'DM Sans', system-ui, -apple-system, sans-serif;
+        color: #0f172a;
+        -webkit-tap-highlight-color: transparent;
+      }
+      h1, h2, h3, h4, .font-heading {
+        font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+      }
+      .font-mono {
+        font-family: 'JetBrains Mono', monospace;
+        font-variant-numeric: tabular-nums;
+      }
+    </style>
+  </head>
+  <!-- On actual phones (<640px): full-bleed white/slate screen. On PC (>=640px): dark studio backdrop showcasing the Smartphone Frame -->
+  <body class="min-h-screen bg-[#F8FAFC] sm:bg-slate-900 sm:py-8 sm:px-4 flex flex-col items-center justify-center">
+    <!-- PC Context Label (Hidden on actual phones) -->
+    <div class="hidden sm:flex items-center justify-between w-full max-w-[412px] mb-3 px-2 text-xs text-slate-300">
+      <span class="font-mono font-semibold text-[#F5A623]">
+        📱 Student Smartphone View (After QR Scan)
+      </span>
+      <a href="/kiosk" class="text-slate-300 hover:text-white underline">
+        ← Back to Kiosk LCD
+      </a>
+    </div>
+
+    <!-- =================================================================== -->
+    <!-- SMARTPHONE DEVICE FRAME ON PC / NATIVE FULL-SCREEN ON MOBILE PHONE  -->
+    <!-- =================================================================== -->
+    <div
+      class="w-full max-w-[412px] bg-[#F8FAFC] min-h-screen sm:min-h-[820px] sm:max-h-[860px] sm:rounded-[44px] sm:border-[10px] sm:border-slate-800 sm:shadow-2xl flex flex-col overflow-hidden relative"
+    >
+      <!-- Phone Status Bar & Speaker Notch (Visible on PC Phone Frame) -->
+      <div class="hidden sm:flex items-center justify-between bg-[#003087] text-white px-6 pt-2.5 pb-1 text-[11px] font-mono">
+        <span>9:41</span>
+        <div class="w-24 h-4 bg-slate-950 rounded-full"></div>
+        <span>5G · 100%</span>
+      </div>
+
+      <!-- Mobile Top App Bar (56px Height) -->
+      <header class="bg-[#003087] text-white px-4 py-3.5 flex items-center justify-between gap-3 border-b border-white/15 shrink-0">
+        <div class="flex items-center gap-2.5 min-w-0">
+          <div class="w-8 h-8 rounded-lg bg-[#F5A623] text-[#003087] font-heading font-extrabold text-xs flex items-center justify-center shrink-0">
+            AU
+          </div>
+          <div class="min-w-0">
+            <span class="text-base font-extrabold tracking-tight text-white font-heading block leading-none truncate">
+              LabGuard+ Mobile
+            </span>
+            <span class="text-[11px] text-blue-200 block truncate mt-0.5">
+              AU Jose Rizal Campus · Student QR Form
+            </span>
+          </div>
+        </div>
+        <span
+          id="header-token-label"
+          class="font-mono text-[11px] px-2 py-1 rounded bg-white/15 text-[#F5A623] font-bold shrink-0"
+        >
+          CHK-QR
+        </span>
+      </header>
+
+      <!-- Scrollable Smartphone Viewport Content -->
+      <main class="flex-1 overflow-y-auto px-4 py-4 space-y-4">
+        <!-- =============================================================== -->
+        <!-- COMPLETED DIGITAL PASS / RECEIPT ON STUDENT PHONE               -->
+        <!-- =============================================================== -->
+        <div
+          id="completed-receipt-box"
+          class="hidden bg-white border-2 border-emerald-500 rounded-2xl p-5 space-y-4 shadow-sm"
+        >
+          <div class="text-center space-y-1.5 border-b border-slate-100 pb-4">
+            <div class="w-12 h-12 rounded-full bg-emerald-100 text-[#16A34A] font-bold text-xl flex items-center justify-center mx-auto">
+              ✓
+            </div>
+            <p id="receipt-code" class="text-xs font-mono font-bold uppercase text-[#16A34A]"></p>
+            <h2 class="text-lg font-extrabold text-slate-900 font-heading">
+              Equipment Checkout Confirmed!
+            </h2>
+            <p class="text-xs text-slate-600">
+              Your student log-in and borrowed apparatus are now recorded in the AU-JRC Science Lab database.
+            </p>
+          </div>
+
+          <div
+            id="receipt-details"
+            class="p-3.5 bg-slate-50 border border-slate-200 rounded-xl text-xs space-y-2"
+          ></div>
+
+          <a
+            href="/kiosk"
+            class="block w-full py-3.5 px-4 bg-[#003087] text-white text-center text-xs font-heading font-extrabold uppercase tracking-wider rounded-xl"
+          >
+            Done · Return to Kiosk
+          </a>
+        </div>
+
+        <!-- =============================================================== -->
+        <!-- ACTIVE MOBILE STUDENT REGISTRATION FORM                         -->
+        <!-- =============================================================== -->
+        <div id="form-workspace" class="space-y-4">
+          <!-- Card 1: Checked-Out Basket Summary on Phone -->
+          <div class="bg-white border border-slate-200 rounded-2xl p-4 space-y-3">
+            <div class="flex items-center justify-between">
+              <div>
+                <p class="text-[10px] font-mono uppercase tracking-wider text-[#003087] font-bold">
+                  Scanned from Kiosk
+                </p>
+                <h2 class="text-sm font-extrabold text-slate-900 font-heading">
+                  Your Equipment Basket
+                </h2>
+              </div>
+              <span
+                id="basket-summary-count"
+                class="px-2.5 py-1 rounded-lg bg-blue-50 font-mono text-xs font-bold text-[#003087]"
+              >
+                0 Units
+              </span>
+            </div>
+
+            <div id="basket-summary-items" class="space-y-2"></div>
+
+            <div class="pt-2.5 border-t border-slate-100">
+              <p class="text-[11px] font-bold text-amber-900">Safety Prerequisites:</p>
+              <ul id="safety-prereqs-summary" class="mt-1 space-y-0.5 text-[11px] text-slate-600"></ul>
+            </div>
+          </div>
+
+          <!-- Card 2: Mobile Student Inputs -->
+          <form
+            id="mobile-student-form"
+            onsubmit="submitStudentCheckoutForm(event)"
+            class="bg-white border border-slate-200 rounded-2xl p-4 space-y-3.5"
+          >
+            <div class="border-b border-slate-100 pb-2.5">
+              <h2 class="text-sm font-extrabold text-slate-900 font-heading">
+                Student Log-In Information
+              </h2>
+              <p class="text-[11px] text-slate-500 mt-0.5">
+                Tap a preset student below for quick testing or type your details:
+              </p>
+              <div id="preset-buttons" class="mt-2 flex gap-1.5 overflow-x-auto pb-1"></div>
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold text-slate-800 mb-1">
+                Student Full Name *
+              </label>
+              <input
+                id="student-name"
+                type="text"
+                required
+                autocomplete="name"
+                placeholder="One Enrique Sebastian G. Abalos"
+                class="w-full h-12 px-3.5 text-sm bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-[#003087] focus:bg-white"
+              />
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold text-slate-800 mb-1">
+                Student ID / LRN Number *
+              </label>
+              <input
+                id="student-lrn"
+                type="text"
+                required
+                placeholder="AUJRC-2026-0101"
+                class="w-full h-12 px-3.5 text-sm font-mono bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-[#003087] focus:bg-white"
+              />
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold text-slate-800 mb-1">
+                Grade Level, Strand & Section *
+              </label>
+              <select
+                id="grade-section"
+                class="w-full h-12 px-3.5 text-sm bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-[#003087] focus:bg-white"
+              >
+                <option value="Grade 12 - STEM 1">Grade 12 - STEM 1</option>
+                <option value="Grade 12 - STEM 2">Grade 12 - STEM 2</option>
+                <option value="Grade 11 - STEM 1">Grade 11 - STEM 1</option>
+                <option value="Grade 11 - STEM 2">Grade 11 - STEM 2</option>
+                <option value="Grade 12 - ABM 1">Grade 12 - ABM 1</option>
+                <option value="Grade 12 - HUMSS 1">Grade 12 - HUMSS 1</option>
+                <option value="Grade 12 - GAS 1">Grade 12 - GAS 1</option>
+                <option value="AU-JRC Science Faculty">AU-JRC Science Faculty</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold text-slate-800 mb-1">
+                School Email (@arellano.edu.ph)
+              </label>
+              <input
+                id="school-email"
+                type="email"
+                inputmode="email"
+                placeholder="student.name@arellano.edu.ph"
+                class="w-full h-12 px-3.5 text-sm bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-[#003087] focus:bg-white"
+              />
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold text-slate-800 mb-1">
+                Science Subject & Lab Activity *
+              </label>
+              <input
+                id="subject-activity"
+                type="text"
+                required
+                value="General Chemistry 2 — Laboratory Experiment"
+                class="w-full h-12 px-3.5 text-sm bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-[#003087] focus:bg-white"
+              />
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold text-slate-800 mb-1">
+                Supervising Science Teacher *
+              </label>
+              <input
+                id="teacher-name"
+                type="text"
+                required
+                value="Ms. Lara Marie Agustin Puertollano"
+                class="w-full h-12 px-3.5 text-sm bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-[#003087] focus:bg-white"
+              />
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold text-slate-800 mb-1.5">
+                Borrow Duration
+              </label>
+              <div class="grid grid-cols-3 gap-2">
+                <button
+                  type="button"
+                  id="dur-btn-1"
+                  onclick="selectDuration(1)"
+                  class="h-11 rounded-xl border text-xs font-bold border-slate-200 bg-slate-50 text-slate-700 cursor-pointer"
+                >
+                  1 Hour
+                </button>
+                <button
+                  type="button"
+                  id="dur-btn-2"
+                  onclick="selectDuration(2)"
+                  class="h-11 rounded-xl border text-xs font-bold border-[#003087] bg-[#003087] text-white cursor-pointer"
+                >
+                  2 Hours
+                </button>
+                <button
+                  type="button"
+                  id="dur-btn-4"
+                  onclick="selectDuration(4)"
+                  class="h-11 rounded-xl border text-xs font-bold border-slate-200 bg-slate-50 text-slate-700 cursor-pointer"
+                >
+                  4 Hours
+                </button>
+              </div>
+            </div>
+
+            <label class="flex items-start gap-3 p-3 bg-slate-50 border border-slate-200 rounded-xl cursor-pointer">
+              <input
+                id="safety-pledge"
+                type="checkbox"
+                checked
+                required
+                class="mt-0.5 w-5 h-5 accent-[#003087] rounded shrink-0"
+              />
+              <span class="text-xs text-slate-700 leading-snug">
+                <strong class="text-slate-900">Safety & Accountability Pledge:</strong> I am wearing required PPE and will return all borrowed apparatus in good condition.
+              </span>
+            </label>
+
+            <div
+              id="form-error-box"
+              class="hidden text-xs font-semibold text-red-600 bg-red-50 p-3 rounded-xl border border-red-200"
+            ></div>
+
+            <!-- Thumb-Zone Primary Submit Button -->
+            <button
+              id="submit-btn"
+              type="submit"
+              class="w-full h-13 py-3.5 px-5 bg-[#C8102E] active:bg-[#a50d25] text-white text-sm font-heading font-extrabold uppercase tracking-wide rounded-xl shadow-md transition-all cursor-pointer"
+            >
+              Submit & Complete Checkout
+            </button>
+          </form>
+        </div>
+      </main>
+
+      <!-- Phone Home Indicator Bar (Visible on PC Phone Frame) -->
+      <div class="hidden sm:flex justify-center py-2 bg-white border-t border-slate-100 shrink-0">
+        <div class="w-32 h-1.5 bg-slate-300 rounded-full"></div>
+      </div>
+    </div>
+
+    <script>
+      const pathParts = window.location.pathname.split('/').filter(Boolean);
+      const sessionToken = pathParts[pathParts.length - 1] || 'DIRECT';
+      document.getElementById('header-token-label').textContent = sessionToken;
+
+      let basketItems = [];
+      let presetsList = [];
+      let selectedHours = 2;
+
+      function selectDuration(hrs) {
+        selectedHours = hrs;
+        [1, 2, 4].forEach((h) => {
+          const btn = document.getElementById(`dur-btn-${h}`);
+          if (h === hrs) {
+            btn.className =
+              'h-11 rounded-xl border text-xs font-bold border-[#003087] bg-[#003087] text-white cursor-pointer';
+          } else {
+            btn.className =
+              'h-11 rounded-xl border text-xs font-bold border-slate-200 bg-slate-50 text-slate-700 cursor-pointer';
+          }
+        });
+      }
+
+      async function loadCheckoutSession() {
+        try {
+          const res = await fetch(`/api/kiosk/checkout-session/${sessionToken}`);
+          if (res.ok) {
+            const data = await res.json();
+            if (data.session) {
+              basketItems = data.session.basket_items || [];
+              if (data.session.status === 'completed' && data.session.completed_transaction) {
+                showCompletedReceipt(data.session.completed_transaction);
+                return;
+              }
+            }
+            presetsList = data.student_presets || [];
+          } else {
+            const fallback = await fetch('/api/state');
+            if (fallback.ok) {
+              const st = await fallback.json();
+              presetsList = st.student_presets || [];
+              const firstEq = (st.equipment || [])[0];
+              if (firstEq) {
+                basketItems = [
+                  {
+                    equipment_id: firstEq.id,
+                    qr_code: firstEq.qr_code,
+                    name: firstEq.name,
+                    category: firstEq.category,
+                    image_url: firstEq.image_url,
+                    storage_compartment: firstEq.storage_compartment,
+                    quantity: 1,
+                    unit: firstEq.unit,
+                    safety_level: firstEq.safety_level,
+                    prerequisites: firstEq.prerequisites || [],
+                  },
+                ];
+              }
+            }
+          }
+          renderPresets();
+          renderBasketSummary();
+        } catch (err) {
+          console.error(err);
+        }
+      }
+
+      function renderPresets() {
+        const container = document.getElementById('preset-buttons');
+        container.innerHTML = presetsList
+          .map(
+            (p, idx) =>
+              `<button type="button" onclick="applyPreset(${idx})" class="px-3 py-1.5 text-xs font-semibold bg-slate-100 active:bg-[#003087] active:text-white text-slate-700 rounded-lg whitespace-nowrap shrink-0 cursor-pointer">${p.student_name.split(' ')[0]} ${p.student_name.split(' ').slice(-1)[0]}</button>`
+          )
+          .join('');
+      }
+
+      function applyPreset(idx) {
+        const p = presetsList[idx];
+        if (!p) return;
+        document.getElementById('student-name').value = p.student_name;
+        document.getElementById('student-lrn').value = p.student_id_lrn;
+        document.getElementById('grade-section').value = p.grade_section;
+        document.getElementById('school-email').value = p.school_email;
+        document.getElementById('subject-activity').value = p.default_subject;
+        document.getElementById('teacher-name').value = p.default_teacher;
+      }
+
+      const HOW_TO_USE_GUIDES = {
+        'LG-EQ-001': 'Carry with two hands (arm & base). Start on lowest 4x objective lens, clip slide on stage, and focus slowly using coarse then fine adjustment knobs.',
+        'LG-EQ-002': 'Inspect glassware for hairline cracks before pouring. Use graduated markings at eye level (bottom of meniscus) and place on wire gauze if heating.',
+        'LG-EQ-003': 'Clear flammable items, close air collar before lighting with a striker, then rotate collar open until a steady blue inner cone flame forms.',
+        'LG-EQ-004': 'Ensure spirit level bubble is centered, close glass draft shield doors, press TARE with weighing boat inside, then add sample gently.',
+        'LG-EQ-005': 'Clamp vertically on burette stand, rinse with titrant, fill above zero mark, release air bubbles from stopcock tip, and read bottom of meniscus.',
+        'LG-EQ-006': 'Remove protective cap, rinse electrode tip with distilled water, blot dry with lint-free tissue (do not rub), and submerge in test solution.',
+        'LG-EQ-007': 'Always load tubes in balanced pairs of equal mass directly opposite each other. Close lid latch firmly before starting and wait for full stop.',
+        'LG-EQ-008': 'Nest inner aluminum cup inside insulated jacket, insert thermometer and stirrer through lid slots, and record initial equilibrium temperature.',
+        'LG-EQ-009': 'Keep scalpel blades pointed away from fingers, secure specimen firmly on dissecting wax pan with T-pins, and sterilize tools after use.',
+        'LG-EQ-010': 'Button lab gown completely, fit splash goggles snug over eyes, and inspect nitrile gloves for tears before handling any reagents.',
+      };
+
+      function getHowToUseText(item) {
+        if (item.description && item.description.trim().length > 0) return item.description;
+        if (HOW_TO_USE_GUIDES[item.qr_code]) return HOW_TO_USE_GUIDES[item.qr_code];
+        return 'Handle carefully on a level laboratory bench while wearing required PPE.';
+      }
+
+      function renderBasketSummary() {
+        const total = basketItems.reduce((s, i) => s + i.quantity, 0);
+        document.getElementById('basket-summary-count').textContent = `${total} Unit${total === 1 ? '' : 's'}`;
+
+        document.getElementById('basket-summary-items').innerHTML = basketItems
+          .map(
+            (item) => `
+            <div class="p-2.5 bg-slate-50 border border-slate-200 rounded-xl space-y-1.5">
+              <div class="flex items-center justify-between gap-2.5">
+                <img src="${item.image_url || `/images/equipment/${item.qr_code}.svg`}" alt="${item.name}" class="w-10 h-10 object-contain bg-white rounded-lg border border-slate-200 p-1 shrink-0" />
+                <div class="min-w-0 flex-1">
+                  <p class="text-xs font-bold text-slate-900 truncate">${item.name}</p>
+                  <p class="text-[10px] font-mono text-slate-500">${item.storage_compartment}</p>
+                </div>
+                <span class="font-mono text-xs font-bold text-[#003087] shrink-0">${item.quantity}×</span>
+              </div>
+              <p class="text-[11px] text-slate-600 leading-snug bg-white p-2 rounded-lg border border-slate-100">
+                <strong class="text-[#003087]">How to use:</strong> ${getHowToUseText(item)}
+              </p>
+            </div>
+          `
+          )
+          .join('');
+
+        const reqs = new Set(['Wear buttoned laboratory gown and closed-toe shoes']);
+        basketItems.forEach((b) => (b.prerequisites || []).forEach((p) => reqs.add(p)));
+        document.getElementById('safety-prereqs-summary').innerHTML = Array.from(reqs)
+          .slice(0, 3)
+          .map((r) => `<li>• ${r}</li>`)
+          .join('');
+      }
+
+      async function submitStudentCheckoutForm(e) {
+        e.preventDefault();
+        const errBox = document.getElementById('form-error-box');
+        errBox.classList.add('hidden');
+
+        const payload = {
+          student_name: document.getElementById('student-name').value,
+          student_id_lrn: document.getElementById('student-lrn').value,
+          grade_section: document.getElementById('grade-section').value,
+          school_email: document.getElementById('school-email').value,
+          subject_activity: document.getElementById('subject-activity').value,
+          teacher_name: document.getElementById('teacher-name').value,
+          expected_return_hours: selectedHours,
+          basket_items: basketItems,
+        };
+
+        try {
+          const res = await fetch(`/api/kiosk/checkout-session/${sessionToken}/complete`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload),
+          });
+          const data = await res.json();
+          if (!res.ok || !data.transaction) {
+            errBox.textContent = data.error || 'Failed to log student transaction.';
+            errBox.classList.remove('hidden');
+            return;
+          }
+          showCompletedReceipt(data.transaction);
+        } catch (err) {
+          errBox.textContent = 'Network error while saving student information.';
+          errBox.classList.remove('hidden');
+        }
+      }
+
+      function showCompletedReceipt(tx) {
+        document.getElementById('form-workspace').classList.add('hidden');
+        const box = document.getElementById('completed-receipt-box');
+        box.classList.remove('hidden');
+        document.getElementById('receipt-code').textContent = `Pass Code: ${tx.transaction_code}`;
+        document.getElementById('receipt-details').innerHTML = `
+          <p><strong>Student:</strong> ${tx.student_name}</p>
+          <p><strong>ID / Strand:</strong> ${tx.student_id_lrn} · ${tx.grade_section}</p>
+          <p><strong>Subject:</strong> ${tx.subject_activity}</p>
+          <p><strong>Teacher:</strong> ${tx.teacher_name}</p>
+          <p><strong>Checked Out:</strong> ${(tx.items || []).map((i) => `${i.quantity}× ${i.name}`).join(', ')}</p>
+        `;
+      }
+
+      loadCheckoutSession();
+    </script>
+
+    <!-- Discreet Prototype Route Helper -->
+    <div id="proto-route-helper" class="fixed bottom-3 right-3 z-50 bg-slate-900/90 text-white border border-slate-700 rounded-lg px-3 py-2 text-xs shadow-lg flex items-center gap-2.5">
+      <span class="font-mono text-[11px] text-slate-400">Preview Routes:</span>
+      <a href="/kiosk" class="font-medium text-white hover:text-[#F5A623] underline">kiosk.html</a>
+      <span class="text-slate-600">·</span>
+      <a href="/student/checkout/DEMO-QR" class="font-semibold text-[#F5A623] underline">student_form.html</a>
+      <span class="text-slate-600">·</span>
+      <a href="/admin" class="font-medium text-white hover:text-[#F5A623] underline">admin.html</a>
+      <button type="button" onclick="document.getElementById('proto-route-helper').remove()" class="ml-1 text-slate-400 hover:text-white cursor-pointer" title="Hide helper">✕</button>
+    </div>
+  </body>
+</html>

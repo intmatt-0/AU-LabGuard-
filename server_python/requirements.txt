@@ -1,0 +1,5 @@
+# Optional requirements if using app_flask.py
+# Note: app.py uses standard library Python and needs ZERO pip dependencies!
+Flask>=3.0.0
+flask-cors>=4.0.0
+gunicorn>=21.2.0

@@ -1,0 +1,364 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>LabGuard+ Kiosk Onboarding — Scan QR to Log In</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        font-family: 'DM Sans', system-ui, -apple-system, sans-serif;
+        background-color: #f8fafc;
+        color: #0f172a;
+      }
+      h1, h2, h3, h4, .font-heading {
+        font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+      }
+      .font-mono {
+        font-family: 'JetBrains Mono', monospace;
+        font-variant-numeric: tabular-nums;
+      }
+    </style>
+  </head>
+  <body class="min-h-screen flex flex-col selection:bg-[#003087] selection:text-white">
+    <!-- KIOSK LCD TOP BAR -->
+    <div class="sticky top-0 z-40">
+      <header class="bg-[#003087] text-white border-b border-white/15 px-6 py-3.5 flex items-center justify-between gap-8">
+        <span class="text-lg font-bold tracking-tight text-white font-heading whitespace-nowrap shrink-0">
+          LabGuard+ Station · AU-JRC
+        </span>
+
+        <span class="text-xs font-mono text-white/80 hidden sm:inline whitespace-nowrap">
+          QR-Based User Log-In Monitoring & Equipment Tracking Station
+        </span>
+
+        <button
+          type="button"
+          onclick="toggleFullscreen()"
+          class="px-4 py-2 text-xs font-semibold text-white bg-[#C8102E] hover:bg-[#a50d25] rounded-lg transition-colors whitespace-nowrap shrink-0 cursor-pointer"
+        >
+          Fullscreen Kiosk
+        </button>
+      </header>
+
+      <!-- LED Safety Status Display Banner -->
+      <div id="led-banner" class="bg-[#16A34A] text-white border-b border-emerald-800 px-6 py-2 transition-colors">
+        <div class="max-w-[1400px] mx-auto flex flex-wrap items-center justify-between gap-4 text-xs">
+          <div class="flex items-center gap-3 min-w-0">
+            <span id="led-indicator" class="font-mono font-bold tracking-wider uppercase whitespace-nowrap shrink-0">
+              ● LED GREEN · SAFE
+            </span>
+            <span aria-hidden="true" class="opacity-60">·</span>
+            <span id="led-message" class="font-medium truncate">
+              Standard laboratory operations active. Scan the Kiosk QR code below with your phone to log in and unlock the inventory.
+            </span>
+          </div>
+          <div class="font-mono text-[11px] opacity-90 whitespace-nowrap shrink-0">
+            Arellano University – Jose Rizal Campus · SHS Science Laboratory
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MAIN KIOSK ONBOARDING LCD SCREEN -->
+    <main class="flex-1 flex items-center justify-center p-6">
+      <div class="max-w-5xl w-full grid grid-cols-1 lg:grid-cols-12 bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm">
+        <!-- Left 6 Columns: Institutional Welcome & 3-Step Onboarding Instructions -->
+        <div class="lg:col-span-6 bg-[#003087] text-white p-8 flex flex-col justify-between space-y-6">
+          <div class="space-y-4">
+            <div class="inline-flex items-center gap-3">
+              <div class="w-11 h-11 rounded-xl bg-[#F5A623] text-[#003087] font-heading font-extrabold text-base flex items-center justify-center shrink-0">
+                AU
+              </div>
+              <div>
+                <p class="text-[11px] font-mono uppercase tracking-wider text-[#F5A623] font-bold">
+                  Arellano University – Jose Rizal Campus
+                </p>
+                <p class="text-xs text-blue-100">
+                  Senior High School Science Laboratory Safety Station
+                </p>
+              </div>
+            </div>
+
+            <h1 class="text-2xl sm:text-3xl font-extrabold font-heading leading-tight">
+              Welcome to LabGuard+ Smart Safety Station
+            </h1>
+
+            <p class="text-sm text-blue-100 leading-relaxed">
+              To promote laboratory accountability and paperless entry monitoring, please scan the station QR code using your smartphone to authenticate before accessing the equipment inventory.
+            </p>
+          </div>
+
+          <!-- 3-Step Onboarding Guide -->
+          <div class="space-y-3 pt-4 border-t border-white/15 text-xs">
+            <div class="flex items-start gap-3">
+              <span class="w-6 h-6 rounded-md bg-white/15 font-mono font-bold flex items-center justify-center shrink-0 text-[#F5A623]">
+                01
+              </span>
+              <div>
+                <p class="font-bold text-white">Scan Kiosk QR Code on Your Phone</p>
+                <p class="text-blue-200 mt-0.5">
+                  Point your phone camera at the QR code displayed on the right side of this LCD screen.
+                </p>
+              </div>
+            </div>
+
+            <div class="flex items-start gap-3">
+              <span class="w-6 h-6 rounded-md bg-white/15 font-mono font-bold flex items-center justify-center shrink-0 text-[#F5A623]">
+                02
+              </span>
+              <div>
+                <p class="font-bold text-white">Input Student Login & Authenticate</p>
+                <p class="text-blue-200 mt-0.5">
+                  Enter your Student Name, LRN/ID, Grade & Strand, and School Email on your phone screen.
+                </p>
+              </div>
+            </div>
+
+            <div class="flex items-start gap-3">
+              <span class="w-6 h-6 rounded-md bg-white/15 font-mono font-bold flex items-center justify-center shrink-0 text-[#F5A623]">
+                03
+              </span>
+              <div>
+                <p class="font-bold text-white">Automatic Kiosk Redirect to Inventory</p>
+                <p class="text-blue-200 mt-0.5">
+                  Once authenticated on your phone, this Kiosk screen automatically changes and redirects to <span class="font-mono text-white">kiosk.html</span>!
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="pt-3 border-t border-white/15 flex items-center justify-between text-[11px] font-mono text-blue-200">
+            <span>Practical Research II · Group 1</span>
+            <span>Adviser: Ms. L. M. A. Puertollano</span>
+          </div>
+        </div>
+
+        <!-- Right 6 Columns: Live Onboarding QR Code & Real-Time Status -->
+        <div class="lg:col-span-6 p-8 flex flex-col items-center justify-center text-center space-y-5">
+          <!-- Waiting for QR Scan State -->
+          <div id="qr-waiting-container" class="w-full flex flex-col items-center space-y-4">
+            <div>
+              <p class="text-xs font-mono font-bold uppercase tracking-wider text-[#003087]">
+                Kiosk Terminal Locked · Scan to Authenticate
+              </p>
+              <h2 class="text-xl font-bold text-slate-900 font-heading mt-0.5">
+                Student QR Log-In & Authentication
+              </h2>
+            </div>
+
+            <!-- QR Frame -->
+            <div class="p-4 bg-white border-2 border-[#003087] rounded-2xl shadow-xs">
+              <img
+                id="onboarding-qr-img"
+                src=""
+                alt="Kiosk Onboarding Login QR Code"
+                referrerpolicy="no-referrer"
+                class="w-56 h-56 object-contain"
+              />
+            </div>
+
+            <div class="space-y-1">
+              <p id="onboarding-token-label" class="font-mono text-xs font-bold text-[#003087]">
+                Generating Session Token...
+              </p>
+              <p class="text-xs text-slate-500">
+                Waiting for student authentication on mobile device...
+              </p>
+            </div>
+
+            <!-- Testing Controls for Computer (Before Raspberry Pi) -->
+            <div class="w-full pt-4 border-t border-slate-200 space-y-2.5">
+              <p class="text-[11px] font-mono text-slate-500">
+                Testing on your computer? Simulate scanning the QR code on your phone:
+              </p>
+              <div class="flex flex-col sm:flex-row items-center justify-center gap-2.5">
+                <button
+                  type="button"
+                  onclick="openPhoneSimulatorDrawer()"
+                  class="w-full sm:w-auto px-4 py-2.5 text-xs font-semibold text-white bg-[#C8102E] hover:bg-[#a50d25] rounded-lg transition-colors cursor-pointer"
+                >
+                  Simulate Phone QR Scan (Authenticate & Watch Kiosk Redirect)
+                </button>
+                <button
+                  type="button"
+                  onclick="createNewAuthSession()"
+                  class="px-3.5 py-2.5 text-xs font-semibold text-slate-700 bg-slate-100 hover:bg-slate-200 rounded-lg transition-colors cursor-pointer"
+                >
+                  Refresh QR
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Authenticated & Redirecting State -->
+          <div id="qr-authenticated-container" class="hidden w-full py-10 space-y-4">
+            <div class="w-16 h-16 rounded-full bg-emerald-100 text-[#16A34A] flex items-center justify-center mx-auto font-bold text-2xl">
+              ✓
+            </div>
+            <p class="text-xs font-mono font-bold uppercase text-[#16A34A]">
+              Student Authenticated Successfully
+            </p>
+            <h2 id="welcome-student-name" class="text-2xl font-bold text-slate-900 font-heading">
+              Welcome!
+            </h2>
+            <p id="welcome-student-meta" class="text-xs font-mono text-slate-600"></p>
+            <p class="text-sm font-semibold text-[#003087] pt-2">
+              Unlocking Kiosk & Redirecting to Equipment Inventory (kiosk.html)...
+            </p>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- BUILT-IN PHONE SIMULATOR MODAL (So you can test Phone QR Login -> Automatic Kiosk Redirect on 1 screen) -->
+    <div id="phone-sim-modal" class="hidden fixed inset-0 z-50 bg-slate-900/60 flex items-center justify-center p-4">
+      <div class="bg-slate-900 p-3 rounded-3xl max-w-md w-full shadow-2xl border border-slate-700">
+        <div class="flex items-center justify-between px-3 py-2 text-white text-xs">
+          <span class="font-mono text-[11px] text-[#F5A623]">📱 Student Smartphone Browser (/student/login/<span id="sim-token-span"></span>)</span>
+          <button
+            type="button"
+            onclick="closePhoneSimulatorDrawer()"
+            class="text-slate-400 hover:text-white font-semibold cursor-pointer"
+          >
+            ✕ Close Phone
+          </button>
+        </div>
+        <iframe
+          id="phone-sim-iframe"
+          src="about:blank"
+          title="Student Phone Login Simulator"
+          class="w-full h-[560px] bg-white rounded-2xl border-0"
+        ></iframe>
+      </div>
+    </div>
+
+    <script>
+      let currentAuthToken = null;
+      let pollTimer = null;
+      let redirecting = false;
+
+      async function loadSafetyStatus() {
+        try {
+          const res = await fetch('/api/state');
+          if (!res.ok) return;
+          const data = await res.json();
+          const st = data.safety_status || { level: 'SAFE', message: '' };
+          const banner = document.getElementById('led-banner');
+          const ind = document.getElementById('led-indicator');
+          const msg = document.getElementById('led-message');
+          msg.textContent = st.message || '';
+          if (st.level === 'UNSAFE') {
+            banner.className = 'bg-[#DC2626] text-white border-b border-red-800 px-6 py-2 transition-colors';
+            ind.textContent = '▲ LED RED · UNSAFE';
+          } else if (st.level === 'CAUTION') {
+            banner.className = 'bg-[#D97706] text-white border-b border-amber-700 px-6 py-2 transition-colors';
+            ind.textContent = '▲ LED YELLOW · CAUTION';
+          } else {
+            banner.className = 'bg-[#16A34A] text-white border-b border-emerald-800 px-6 py-2 transition-colors';
+            ind.textContent = '● LED GREEN · SAFE';
+          }
+        } catch (e) {
+          console.error(e);
+        }
+      }
+
+      async function createNewAuthSession() {
+        redirecting = false;
+        if (pollTimer) clearInterval(pollTimer);
+        try {
+          const res = await fetch('/api/kiosk/auth-session', { method: 'POST' });
+          const data = await res.json();
+          if (data.session) {
+            currentAuthToken = data.session.auth_token;
+            document.getElementById('onboarding-qr-img').src = data.session.qr_data_url || '';
+            document.getElementById('onboarding-token-label').textContent = `Session Token: ${currentAuthToken}`;
+            document.getElementById('sim-token-span').textContent = currentAuthToken;
+
+            // Poll every 1.2s so when the student logs in on their phone, the Kiosk automatically redirects to /kiosk!
+            pollTimer = setInterval(checkAuthStatus, 1200);
+          }
+        } catch (err) {
+          console.error(err);
+        }
+      }
+
+      async function checkAuthStatus() {
+        if (!currentAuthToken || redirecting) return;
+        try {
+          const res = await fetch(`/api/kiosk/auth-session/${currentAuthToken}`);
+          if (!res.ok) return;
+          const data = await res.json();
+          if (data.session && data.session.status === 'authenticated' && data.session.student) {
+            triggerKioskRedirect(data.session.student);
+          }
+        } catch (err) {
+          // ignore transient poll errors
+        }
+      }
+
+      function triggerKioskRedirect(student) {
+        if (redirecting) return;
+        redirecting = true;
+        if (pollTimer) clearInterval(pollTimer);
+
+        closePhoneSimulatorDrawer();
+        document.getElementById('qr-waiting-container').classList.add('hidden');
+        const authBox = document.getElementById('qr-authenticated-container');
+        authBox.classList.remove('hidden');
+
+        document.getElementById('welcome-student-name').textContent = `Welcome, ${student.student_name}!`;
+        document.getElementById('welcome-student-meta').textContent = `${student.student_id_lrn} · ${student.grade_section} · ${student.school_email}`;
+
+        // Save authenticated student session in sessionStorage and redirect Kiosk to /kiosk
+        try {
+          sessionStorage.setItem('labguard_authenticated_student', JSON.stringify(student));
+          sessionStorage.setItem('labguard_auth_token', currentAuthToken);
+        } catch (e) {}
+
+        setTimeout(() => {
+          window.location.href = `/kiosk?auth_token=${encodeURIComponent(currentAuthToken)}`;
+        }, 1400);
+      }
+
+      function openPhoneSimulatorDrawer() {
+        if (!currentAuthToken) return;
+        document.getElementById('phone-sim-iframe').src = `/student/login/${currentAuthToken}`;
+        document.getElementById('phone-sim-modal').classList.remove('hidden');
+      }
+
+      function closePhoneSimulatorDrawer() {
+        document.getElementById('phone-sim-modal').classList.add('hidden');
+        document.getElementById('phone-sim-iframe').src = 'about:blank';
+      }
+
+      function toggleFullscreen() {
+        if (!document.fullscreenElement) {
+          document.documentElement.requestFullscreen().catch(() => {});
+        } else {
+          document.exitFullscreen().catch(() => {});
+        }
+      }
+
+      loadSafetyStatus();
+      createNewAuthSession();
+    </script>
+
+    <!-- Discreet Prototype Route Helper -->
+    <div id="proto-route-helper" class="fixed bottom-3 right-3 z-40 bg-slate-900/90 text-white border border-slate-700 rounded-lg px-3 py-2 text-xs shadow-lg flex items-center gap-2.5">
+      <span class="font-mono text-[11px] text-slate-400">Preview Routes:</span>
+      <a href="/" class="font-semibold text-[#F5A623] underline">onboarding.html</a>
+      <span class="text-slate-600">·</span>
+      <a href="/kiosk" class="font-medium text-white hover:text-[#F5A623] underline">kiosk.html</a>
+      <span class="text-slate-600">·</span>
+      <a href="/admin" class="font-medium text-white hover:text-[#F5A623] underline">admin.html</a>
+      <button type="button" onclick="document.getElementById('proto-route-helper').remove()" class="ml-1 text-slate-400 hover:text-white cursor-pointer" title="Hide helper">✕</button>
+    </div>
+  </body>
+</html>

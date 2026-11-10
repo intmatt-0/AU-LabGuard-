@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>LabGuard+ Mobile Student Login — Arellano University Jose Rizal Campus</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        font-family: 'DM Sans', system-ui, -apple-system, sans-serif;
+        background-color: #f8fafc;
+        color: #0f172a;
+      }
+      h1, h2, h3, h4, .font-heading {
+        font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+      }
+      .font-mono {
+        font-family: 'JetBrains Mono', monospace;
+        font-variant-numeric: tabular-nums;
+      }
+    </style>
+  </head>
+  <body class="min-h-screen flex flex-col selection:bg-[#003087] selection:text-white">
+    <header class="bg-[#003087] text-white px-5 py-3.5 flex items-center justify-between border-b border-white/15">
+      <div>
+        <p class="text-[10px] font-mono uppercase tracking-wider text-[#F5A623] font-bold">
+          Arellano University – Jose Rizal Campus
+        </p>
+        <h1 class="text-base font-bold font-heading">LabGuard+ Student Authentication</h1>
+      </div>
+      <span id="mobile-token-badge" class="font-mono text-xs text-blue-200"></span>
+    </header>
+
+    <main class="flex-1 max-w-md w-full mx-auto p-5">
+      <!-- SUCCESS STATE AFTER AUTHENTICATION -->
+      <div id="auth-success-box" class="hidden bg-white border border-emerald-300 rounded-2xl p-6 text-center space-y-4 shadow-xs">
+        <div class="w-14 h-14 rounded-full bg-emerald-100 text-[#16A34A] flex items-center justify-center mx-auto text-2xl font-bold">
+          ✓
+        </div>
+        <p class="text-xs font-mono font-bold uppercase text-[#16A34A]">
+          Authentication Confirmed
+        </p>
+        <h2 id="auth-success-name" class="text-xl font-bold text-slate-900 font-heading"></h2>
+        <p class="text-xs text-slate-600 leading-relaxed">
+          Your student login has been recorded in the LabGuard+ database. Look at the <strong>Kiosk LCD Screen</strong>—it is now unlocking and redirecting to the Science Equipment Inventory!
+        </p>
+      </div>
+
+      <!-- STUDENT LOGIN FORM -->
+      <form
+        id="student-login-form"
+        onsubmit="submitMobileAuthentication(event)"
+        class="bg-white border border-slate-200 rounded-2xl p-5 space-y-4 shadow-xs"
+      >
+        <div class="border-b border-slate-200 pb-3">
+          <h2 class="text-base font-bold text-slate-900 font-heading">
+            Log In to Unlock Kiosk Screen
+          </h2>
+          <p class="text-xs text-slate-500 mt-0.5">
+            Enter your AU-JRC student credentials below or tap a quick-fill student profile:
+          </p>
+          <div id="preset-list" class="mt-2 flex flex-wrap gap-1.5"></div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-slate-800 mb-1">Student Full Name *</label>
+          <input
+            id="login-name"
+            type="text"
+            required
+            placeholder="e.g. One Enrique Sebastian G. Abalos"
+            class="w-full px-3.5 py-2.5 text-sm bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:border-[#003087] focus:bg-white"
+          />
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-semibold text-slate-800 mb-1">Student ID / LRN *</label>
+            <input
+              id="login-lrn"
+              type="text"
+              required
+              placeholder="AUJRC-2026-0101"
+              class="w-full px-3.5 py-2.5 text-sm font-mono bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:border-[#003087] focus:bg-white"
+            />
+          </div>
+
+          <div>
+            <label class="block text-xs font-semibold text-slate-800 mb-1">Grade & Strand *</label>
+            <select
+              id="login-section"
+              class="w-full px-3 py-2.5 text-sm bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:border-[#003087] focus:bg-white"
+            >
+              <option value="Grade 12 - STEM 1">Grade 12 - STEM 1</option>
+              <option value="Grade 12 - STEM 2">Grade 12 - STEM 2</option>
+              <option value="Grade 11 - STEM 1">Grade 11 - STEM 1</option>
+              <option value="Grade 11 - STEM 2">Grade 11 - STEM 2</option>
+              <option value="Grade 12 - ABM 1">Grade 12 - ABM 1</option>
+              <option value="Grade 12 - HUMSS 1">Grade 12 - HUMSS 1</option>
+              <option value="Grade 12 - GAS 1">Grade 12 - GAS 1</option>
+              <option value="AU-JRC Science Faculty">AU-JRC Science Faculty</option>
+            </select>
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-slate-800 mb-1">School Email (@arellano.edu.ph) *</label>
+          <input
+            id="login-email"
+            type="email"
+            required
+            placeholder="student.name@arellano.edu.ph"
+            class="w-full px-3.5 py-2.5 text-sm bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:border-[#003087] focus:bg-white"
+          />
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-slate-800 mb-1">Science Subject & Lab Activity *</label>
+          <input
+            id="login-subject"
+            type="text"
+            required
+            value="General Biology 1 — Microscopy & Cell Structure"
+            class="w-full px-3.5 py-2.5 text-sm bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:border-[#003087] focus:bg-white"
+          />
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-slate-800 mb-1">Supervising Science Teacher *</label>
+          <input
+            id="login-teacher"
+            type="text"
+            required
+            value="Ms. Lara Marie Agustin Puertollano"
+            class="w-full px-3.5 py-2.5 text-sm bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:border-[#003087] focus:bg-white"
+          />
+        </div>
+
+        <div id="login-error-box" class="hidden text-xs font-semibold text-red-600 bg-red-50 p-3 rounded-lg border border-red-200"></div>
+
+        <button
+          id="login-submit-btn"
+          type="submit"
+          class="w-full py-3.5 px-4 bg-[#C8102E] hover:bg-[#a50d25] text-white text-sm font-semibold rounded-lg transition-colors cursor-pointer"
+        >
+          Authenticate & Unlock Kiosk Screen
+        </button>
+      </form>
+    </main>
+
+    <script>
+      const parts = window.location.pathname.split('/').filter(Boolean);
+      const authToken = parts[parts.length - 1] || 'AUTH-DEMO';
+      document.getElementById('mobile-token-badge').textContent = authToken;
+
+      let studentPresets = [];
+
+      async function loadPresets() {
+        try {
+          const res = await fetch('/api/state');
+          if (!res.ok) return;
+          const data = await res.json();
+          studentPresets = data.student_presets || [];
+          document.getElementById('preset-list').innerHTML = studentPresets
+            .map(
+              (p, i) =>
+                `<button type="button" onclick="fillPreset(${i})" class="px-2.5 py-1 text-xs font-medium bg-slate-100 hover:bg-[#003087] hover:text-white text-slate-700 rounded-md transition-colors cursor-pointer">${p.student_name.split(' ')[0]} ${p.student_name.split(' ').slice(-1)[0]}</button>`
+            )
+            .join('');
+        } catch (err) {
+          console.error(err);
+        }
+      }
+
+      function fillPreset(idx) {
+        const p = studentPresets[idx];
+        if (!p) return;
+        document.getElementById('login-name').value = p.student_name;
+        document.getElementById('login-lrn').value = p.student_id_lrn;
+        document.getElementById('login-section').value = p.grade_section;
+        document.getElementById('login-email').value = p.school_email;
+        document.getElementById('login-subject').value = p.default_subject;
+        document.getElementById('login-teacher').value = p.default_teacher;
+      }
+
+      async function submitMobileAuthentication(e) {
+        e.preventDefault();
+        const errBox = document.getElementById('login-error-box');
+        errBox.classList.add('hidden');
+
+        const payload = {
+          student_name: document.getElementById('login-name').value,
+          student_id_lrn: document.getElementById('login-lrn').value,
+          grade_section: document.getElementById('login-section').value,
+          school_email: document.getElementById('login-email').value,
+          subject_activity: document.getElementById('login-subject').value,
+          teacher_name: document.getElementById('login-teacher').value,
+        };
+
+        try {
+          const res = await fetch(`/api/kiosk/auth-session/${authToken}/authenticate`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload),
+          });
+          const data = await res.json();
+          if (!res.ok) {
+            errBox.textContent = data.error || 'Authentication failed.';
+            errBox.classList.remove('hidden');
+            return;
+          }
+          document.getElementById('student-login-form').classList.add('hidden');
+          const box = document.getElementById('auth-success-box');
+          box.classList.remove('hidden');
+          document.getElementById('auth-success-name').textContent = `Welcome, ${payload.student_name}!`;
+        } catch (err) {
+          errBox.textContent = 'Network error while authenticating with Kiosk.';
+          errBox.classList.remove('hidden');
+        }
+      }
+
+      loadPresets();
+    </script>
+  </body>
+</html>

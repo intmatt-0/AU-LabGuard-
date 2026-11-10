@@ -1,0 +1,6 @@
+{
+  "name": "Arellano University QR Inventory Kiosk",
+  "description": "Smart QR-bound asset management and kiosk inventory system for Arellano University, ready for local PC and Raspberry Pi deployment with Python backend.",
+  "requestFramePermissions": ["camera"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

@@ -1,0 +1,13 @@
+# LabGuard Smart Locker System — Python 3.11+ Dependencies (§3.2)
+fastapi>=0.110.0
+uvicorn[standard]>=0.28.0
+sqlalchemy[asyncio]>=2.0.28
+aiosqlite>=0.20.0
+alembic>=1.13.1
+python-jose[cryptography]>=3.3.0
+passlib[bcrypt]>=1.7.4
+qrcode[pil]>=7.4.2
+gpiozero>=2.0.1
+apscheduler>=3.10.4
+python-multipart>=0.0.9
+Pillow>=10.2.0
