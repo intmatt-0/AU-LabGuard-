@@ -436,12 +436,21 @@ async function startServer() {
       }
     }
 
-    if (condition === 'Damaged') {
+    if (condition === 'Damaged' || condition === 'Missing') {
+      const itemsSummary = record.items.map((i) => `${i.quantity}x ${i.name}`).join(', ');
+      const compartmentsSummary = Array.from(
+        new Set(record.items.map((i) => i.storage_compartment).filter(Boolean))
+      ).join(', ');
+      const nextLevel: SafetyStatusLevel = safetyStatus.level === 'UNSAFE' ? 'UNSAFE' : 'CAUTION';
+
       safetyStatus = {
-        level: 'CAUTION',
-        headline: SAFETY_PRESET_MESSAGES.CAUTION.headline,
-        message: `Equipment returned with reported damage (${record.transaction_code}). Inspect compartment before next use.`,
-        updated_by: 'LabGuard+ Return Monitor',
+        level: nextLevel,
+        headline: SAFETY_PRESET_MESSAGES[nextLevel].headline,
+        message:
+          condition === 'Damaged'
+            ? `Damaged apparatus returned (${record.transaction_code}: ${itemsSummary}). Inspect ${compartmentsSummary || 'compartment'} before next use.`
+            : `Missing apparatus reported on return (${record.transaction_code}: ${itemsSummary}). Lab Coordinator verification required for ${compartmentsSummary || 'compartment'}.`,
+        updated_by: `LabGuard+ Return Monitor (${condition})`,
         updated_at: nowIso,
       };
     }
@@ -463,7 +472,7 @@ async function startServer() {
     const name = String(req.body?.name || '').trim();
     const category = req.body?.category || 'Glassware & Measuring';
     const description = String(req.body?.description || '').trim();
-    const compartment = String(req.body?.storage_compartment || 'Compartment A-04').trim();
+    const compartment = String(req.body?.storage_compartment || '4th - 3rd Section').trim();
     const totalQty = Math.max(1, Number(req.body?.total_qty || 1));
     const unit = String(req.body?.unit || 'unit').trim();
     const safetyLevel = req.body?.safety_level === 'CAUTION' ? 'CAUTION' : 'SAFE';
@@ -486,7 +495,7 @@ async function startServer() {
       qr_code: qrCode,
       name,
       category,
-      image_url: String(req.body?.image_url || '').trim() || '/images/equipment/LG-EQ-002.svg',
+      image_url: String(req.body?.image_url || '').trim() || '/images/equipment/LG-EQ-001.svg',
       description: description || `${name} for AU-JRC Senior High School Science Laboratory.`,
       storage_compartment: compartment,
       total_qty: totalQty,

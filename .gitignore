@@ -1,8 +1,32 @@
+# Dependencies
 node_modules/
-build/
 dist/
+build/
 coverage/
-.DS_Store
-*.log
+
+# AI Studio internal artifacts & system files
+.aistudio/
+
+# Python cache & virtual environments
+__pycache__/
+*.py[cod]
+*$py.class
+*.sqlite3
+labguard.db
+venv/
+.venv/
+env/
+.pytest_cache/
+
+# Environment files
 .env*
 !.env.example
+
+# OS & Editor dotfiles
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+*.swo
+*.log

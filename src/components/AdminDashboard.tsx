@@ -51,7 +51,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
   const [newEqName, setNewEqName] = useState('');
   const [newEqQr, setNewEqQr] = useState('');
   const [newEqCategory, setNewEqCategory] = useState<EquipmentCategory>('Glassware & Measuring');
-  const [newEqCompartment, setNewEqCompartment] = useState('Compartment A-04');
+  const [newEqCompartment, setNewEqCompartment] = useState('4th - 3rd Section');
   const [newEqQty, setNewEqQty] = useState(5);
   const [newEqUnit, setNewEqUnit] = useState('set');
   const [newEqSafety, setNewEqSafety] = useState<'SAFE' | 'CAUTION'>('SAFE');
@@ -128,48 +128,178 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
     onRefreshData();
   };
 
+  const formatCsvDate = (val?: string) => {
+    if (!val) return 'N/A';
+    const d = new Date(val);
+    if (isNaN(d.getTime())) return String(val);
+    const y = d.getFullYear();
+    const m = String(d.getMonth() + 1).padStart(2, '0');
+    const day = String(d.getDate()).padStart(2, '0');
+    return `${y}-${m}-${day}`;
+  };
+
+  const formatCsvTime = (val?: string) => {
+    if (!val) return 'N/A';
+    const d = new Date(val);
+    if (isNaN(d.getTime())) return String(val);
+    return d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true });
+  };
+
+  const formatCsvDateTime = (val?: string) => {
+    if (!val) return 'N/A';
+    const d = new Date(val);
+    if (isNaN(d.getTime())) return String(val);
+    const y = d.getFullYear();
+    const m = String(d.getMonth() + 1).padStart(2, '0');
+    const day = String(d.getDate()).padStart(2, '0');
+    const t = d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true });
+    return `${y}-${m}-${day} ${t}`;
+  };
+
   const handleExportLogsCsv = () => {
-    const headers = [
-      'Transaction Code',
-      'Student Name',
-      'Student ID / LRN',
-      'Grade & Section',
-      'School Email',
-      'Subject & Activity',
-      'Supervising Teacher',
-      'Borrowed Items',
-      'Total Units',
-      'Time In',
-      'Time Out',
-      'Return Condition',
-      'Status',
+    const now = new Date();
+    const generatedDateStr = now.toLocaleDateString([], {
+      weekday: 'long',
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    });
+    const generatedTimeStr = now.toLocaleTimeString([], {
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+      hour12: true,
+    });
+
+    const targetList: StudentTransactionLog[] = filteredLogs.length > 0 ? filteredLogs : transactions;
+    const totalLogs = targetList.length;
+    const activeCount = targetList.filter((t: StudentTransactionLog) => t.status === 'Borrowed / In Lab').length;
+    const returnedCount = targetList.filter((t: StudentTransactionLog) => t.status === 'Returned / Logged Out').length;
+    const overdueCount = targetList.filter((t: StudentTransactionLog) => t.status === 'Overdue').length;
+    const totalUnitsOnLoan = targetList.reduce(
+      (sum: number, t: StudentTransactionLog) =>
+        sum + (t.total_items_count || (t.items || []).reduce((s: number, i: { quantity?: number }) => s + (i.quantity || 1), 0)),
+      0
+    );
+
+    // Institutional Report Header Block (Formatted for Excel/Google Sheets)
+    const headerBlock: string[][] = [
+      ['ARELLANO UNIVERSITY - JOSE RIZAL CAMPUS'],
+      ['Science & Technology Laboratory Management System (LabGuard+)'],
+      ['OFFICIAL STUDENT EQUIPMENT BORROWING & ACCOUNTABILITY LOG REPORT'],
+      [`Report Generated: ${generatedDateStr} at ${generatedTimeStr}`],
+      ['Supervising Faculty / Laboratory In-Charge: Ms. Lara Marie Agustin Puertollano'],
+      [`Summary Metrics: Total Records: ${totalLogs} | Active In-Lab: ${activeCount} | Completed Returns: ${returnedCount} | Overdue Returns: ${overdueCount} | Total Units Borrowed: ${totalUnitsOnLoan}`],
+      [], // Empty row separator before table headers
     ];
 
-    const rows = filteredLogs.map((t) => [
-      t.transaction_code,
-      t.student_name,
-      t.student_id_lrn,
-      t.grade_section,
-      t.school_email,
-      t.subject_activity,
-      t.teacher_name,
-      t.items.map((i) => `${i.quantity}x ${i.name} (${i.qr_code})`).join('; '),
-      String(t.total_items_count),
-      new Date(t.time_in).toLocaleString(),
-      t.time_out ? new Date(t.time_out).toLocaleString() : 'Still in Lab',
-      t.return_condition || 'N/A',
-      t.status,
-    ]);
+    // Column Headers (Aligned with Admin Dashboard layout)
+    const tableHeaders: string[] = [
+      'Transaction ID',
+      'Current Status',
+      'Date Borrowed',
+      'Time Borrowed (Time In)',
+      'Expected Return (Due Time)',
+      'Actual Return (Time Out)',
+      'Loan Duration',
+      'Student Full Name',
+      'Student ID / LRN',
+      'Strand / Department',
+      'School Email',
+      'Subject & Lab Activity',
+      'Supervising Science Teacher',
+      'Borrowed Apparatus Items & Compartments',
+      'Total Units Borrowed',
+      'Return Condition',
+      'Remarks / Log Notes',
+    ];
 
-    const csvContent = [headers, ...rows]
-      .map((r) => r.map((cell) => `"${String(cell).replace(/"/g, '""')}"`).join(','))
-      .join('\n');
+    // Data Rows with clean, Excel-friendly formatted dates and duration
+    const rows = targetList.map((t: StudentTransactionLog) => {
+      const dateBorrowed = formatCsvDate(t.time_in);
+      const timeBorrowed = formatCsvTime(t.time_in);
+      const expectedDue = t.expected_return
+        ? formatCsvDateTime(t.expected_return)
+        : 'Not Specified';
+      const actualReturn = t.time_out
+        ? formatCsvDateTime(t.time_out)
+        : 'Active In Lab (Not Yet Returned)';
 
-    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+      let durationStr = 'N/A';
+      if (t.time_in && t.expected_return) {
+        const dueMs = new Date(t.expected_return).getTime() - new Date(t.time_in).getTime();
+        if (dueMs > 0) {
+          const h = Math.round((dueMs / 3600000) * 10) / 10;
+          durationStr = h >= 24 ? `${Math.round((h / 24) * 10) / 10} Days (${h}h)` : `${h} Hours`;
+        }
+      }
+
+      const itemsFormatted = (t.items || [])
+        .map((i) => {
+          const qty = i.quantity || 1;
+          const comp = i.storage_compartment ? ` [${i.storage_compartment}]` : '';
+          const code = i.qr_code ? ` (${i.qr_code})` : '';
+          return `${qty}x ${i.name}${code}${comp}`;
+        })
+        .join('; ');
+
+      const totalUnits =
+        t.total_items_count || (t.items || []).reduce((s: number, i: { quantity?: number }) => s + (i.quantity || 1), 0);
+      const returnCondition = t.return_condition
+        ? `${t.return_condition}`
+        : t.status === 'Returned / Logged Out'
+        ? 'Good'
+        : 'N/A (Active In Lab)';
+      const remarks =
+        t.return_notes ||
+        (t.status === 'Returned / Logged Out'
+          ? 'Returned and verified in stock'
+          : t.status === 'Overdue'
+          ? 'Immediate teacher follow-up required'
+          : 'Equipment currently in use by student');
+
+      return [
+        t.transaction_code,
+        t.status,
+        dateBorrowed,
+        timeBorrowed,
+        expectedDue,
+        actualReturn,
+        durationStr,
+        t.student_name,
+        t.student_id_lrn,
+        t.grade_section,
+        t.school_email || 'N/A',
+        t.subject_activity,
+        t.teacher_name,
+        itemsFormatted,
+        String(totalUnits),
+        returnCondition,
+        remarks,
+      ];
+    });
+
+    const allRows: (string | number)[][] = [...headerBlock, tableHeaders, ...rows];
+    const csvContent = allRows
+      .map((row: (string | number)[]) =>
+        row
+          .map((cell: string | number) => {
+            const str = cell === null || cell === undefined ? '' : String(cell);
+            return `"${str.replace(/"/g, '""')}"`;
+          })
+          .join(',')
+      )
+      .join('\r\n');
+
+    // Prepend UTF-8 BOM (\uFEFF) so Microsoft Excel opens directly with correct UTF-8 character encoding
+    const blob = new Blob(['\uFEFF' + csvContent], { type: 'text/csv;charset=utf-8;' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `LabGuard_Plus_AU_JRC_Logs_${new Date().toISOString().slice(0, 10)}.csv`;
+    const yyyy = now.getFullYear();
+    const mm = String(now.getMonth() + 1).padStart(2, '0');
+    const dd = String(now.getDate()).padStart(2, '0');
+    a.download = `AU_JRC_LabGuard_Student_Logs_${yyyy}-${mm}-${dd}.csv`;
     a.click();
     URL.revokeObjectURL(url);
   };

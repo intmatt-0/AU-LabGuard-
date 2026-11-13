@@ -30,6 +30,93 @@
         font-variant-numeric: tabular-nums;
       }
 
+      /* Subtle breathing keyframe for Start Screen CTA */
+      @keyframes breathe {
+        0%, 100% {
+          transform: scale(1);
+          opacity: 0.92;
+        }
+        50% {
+          transform: scale(1.03);
+          opacity: 1;
+        }
+      }
+      .animate-breathe {
+        animation: breathe 2.4s ease-in-out infinite;
+      }
+
+      /* AU Official Seal Floating & Halo Glow */
+      @keyframes sealHalo {
+        0%, 100% {
+          box-shadow: 0 0 0 0 rgba(245, 166, 35, 0.4), 0 10px 25px -5px rgba(0, 48, 135, 0.5);
+          transform: translateY(0px) scale(1);
+        }
+        50% {
+          box-shadow: 0 0 28px 6px rgba(245, 166, 35, 0.45), 0 14px 28px -5px rgba(0, 48, 135, 0.6);
+          transform: translateY(-3px) scale(1.02);
+        }
+      }
+      .animate-seal-halo {
+        animation: sealHalo 3.2s ease-in-out infinite;
+      }
+
+      /* Screen Entrance Transitions */
+      @keyframes screenSlideIn {
+        from {
+          opacity: 0;
+          transform: translateY(8px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .screen-enter {
+        animation: screenSlideIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      }
+
+      /* Basket Bump Animation when Adding Equipment */
+      @keyframes basketBump {
+        0% { transform: scale(1); }
+        30% { transform: scale(1.22) rotate(-4deg); }
+        60% { transform: scale(0.96) rotate(3deg); }
+        100% { transform: scale(1) rotate(0deg); }
+      }
+      .animate-basket-bump {
+        animation: basketBump 0.42s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      }
+
+      /* Floating "+1" Badge Keyframe */
+      @keyframes floatAddOne {
+        0% { opacity: 0; transform: translateY(6px) scale(0.7); }
+        25% { opacity: 1; transform: translateY(-4px) scale(1.15); }
+        75% { opacity: 1; transform: translateY(-16px) scale(1); }
+        100% { opacity: 0; transform: translateY(-28px) scale(0.85); }
+      }
+      .animate-float-add {
+        animation: floatAddOne 0.75s ease-out forwards;
+      }
+
+      /* Confirmation Modal Pop */
+      @keyframes popInModal {
+        0% { opacity: 0; transform: scale(0.92) translateY(12px); }
+        70% { transform: scale(1.02) translateY(-2px); }
+        100% { opacity: 1; transform: scale(1) translateY(0); }
+      }
+      .animate-modal-pop {
+        animation: popInModal 0.32s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      }
+
+      /* Checkmark Pop */
+      @keyframes checkmarkPop {
+        0% { transform: scale(0) rotate(-45deg); opacity: 0; }
+        65% { transform: scale(1.22) rotate(6deg); }
+        100% { transform: scale(1) rotate(0deg); opacity: 1; }
+      }
+      .animate-check-pop {
+        animation: checkmarkPop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+      }
+
       /* Sleek Scrollbar */
       .rpi-scroll::-webkit-scrollbar {
         width: 5px;
@@ -47,13 +134,11 @@
          7-INCH RASPBERRY PI TOUCHSCREEN LCD (800 x 480) COMPACT RULES
          ===================================================================== */
       .rpi-lcd-active #kiosk-brand-header {
-        padding: 0.5rem 0.9rem !important;
+        padding: 0.45rem 0.85rem !important;
       }
       .rpi-lcd-active #kiosk-brand-logo {
-        width: 2rem !important;
-        height: 2rem !important;
-        font-size: 0.8rem !important;
-        border-radius: 0.5rem !important;
+        width: 2.1rem !important;
+        height: 2.1rem !important;
       }
       .rpi-lcd-active #kiosk-brand-title {
         font-size: 1.15rem !important;
@@ -61,83 +146,98 @@
       .rpi-lcd-active #top-borrow-btn,
       .rpi-lcd-active #top-return-btn,
       .rpi-lcd-active #top-start-over-btn {
-        padding: 0.38rem 0.7rem !important;
-        font-size: 0.7rem !important;
+        padding: 0.35rem 0.65rem !important;
+        font-size: 0.68rem !important;
         border-radius: 0.5rem !important;
       }
 
-      /* Minimal Welcome Screen inside 800x480 LCD */
+      /* Attract Screen inside 800x480 LCD */
+      .rpi-lcd-active #attract-screen {
+        padding: 1.25rem 1rem !important;
+      }
+      .rpi-lcd-active #attract-seal {
+        width: 5.5rem !important;
+        height: 5.5rem !important;
+      }
+      .rpi-lcd-active #attract-title {
+        font-size: 2.1rem !important;
+      }
+      .rpi-lcd-active #attract-subtitle {
+        font-size: 0.75rem !important;
+      }
+
+      /* Welcome Screen inside 800x480 LCD */
       .rpi-lcd-active #welcome-screen {
-        padding: 0.9rem 1.1rem !important;
+        padding: 0.8rem 1rem !important;
         justify-content: center !important;
-        gap: 0.85rem !important;
+        gap: 0.75rem !important;
       }
       .rpi-lcd-active #welcome-header-block h1 {
-        font-size: 1.65rem !important;
+        font-size: 1.55rem !important;
         line-height: 1.15 !important;
       }
       .rpi-lcd-active #welcome-header-block p {
-        font-size: 0.75rem !important;
+        font-size: 0.72rem !important;
       }
       .rpi-lcd-active #welcome-cards-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-        gap: 0.9rem !important;
+        gap: 0.85rem !important;
         margin: 0 !important;
       }
       .rpi-lcd-active .welcome-touch-card {
-        min-height: 250px !important;
-        padding: 1rem !important;
+        min-height: 235px !important;
+        padding: 0.9rem !important;
         border-radius: 1.15rem !important;
       }
       .rpi-lcd-active .welcome-touch-icon {
-        width: 4rem !important;
-        height: 4rem !important;
-        padding: 0.5rem !important;
+        width: 3.6rem !important;
+        height: 3.6rem !important;
+        padding: 0.45rem !important;
       }
       .rpi-lcd-active .welcome-touch-card h2 {
-        font-size: 1.2rem !important;
+        font-size: 1.15rem !important;
       }
       .rpi-lcd-active .welcome-touch-card p {
-        font-size: 0.7rem !important;
-        line-height: 1.3 !important;
+        font-size: 0.68rem !important;
+        line-height: 1.25 !important;
       }
       .rpi-lcd-active .welcome-touch-cta {
-        padding: 0.6rem 0.75rem !important;
-        font-size: 0.75rem !important;
+        padding: 0.55rem 0.7rem !important;
+        font-size: 0.72rem !important;
         border-radius: 0.65rem !important;
       }
 
       /* Main Catalog Screen inside 800x480 LCD */
       .rpi-lcd-active #kiosk-catalog-screen {
-        padding: 0.6rem 0.85rem !important;
+        padding: 0.5rem 0.75rem !important;
         flex: 1 1 0% !important;
         min-height: 0 !important;
         overflow: hidden !important;
       }
       .rpi-lcd-active #equipment-grid {
         grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
-        gap: 0.55rem !important;
+        gap: 0.5rem !important;
       }
       .rpi-lcd-active .eq-card-img-box {
-        height: 5.5rem !important;
-        padding: 0.4rem !important;
+        height: 5.2rem !important;
+        padding: 0.35rem !important;
       }
       .rpi-lcd-active .eq-card-body {
-        padding: 0.5rem 0.6rem !important;
+        padding: 0.45rem 0.55rem !important;
       }
       .rpi-lcd-active .eq-card-title {
-        font-size: 0.75rem !important;
+        font-size: 0.74rem !important;
         line-height: 1.2 !important;
       }
       .rpi-lcd-active .eq-card-meta {
-        font-size: 0.64rem !important;
+        font-size: 0.62rem !important;
       }
       .rpi-lcd-active .eq-card-footer {
-        padding: 0.4rem 0.5rem !important;
+        padding: 0.35rem 0.45rem !important;
       }
       .rpi-lcd-active .eq-add-btn {
-        padding: 0.42rem 0.5rem !important;
-        font-size: 0.66rem !important;
+        padding: 0.38rem 0.45rem !important;
+        font-size: 0.65rem !important;
       }
     </style>
   </head>
@@ -147,7 +247,7 @@
     <!-- =================================================================== -->
     <div
       id="simulator-toolbar"
-      class="bg-slate-950 text-white border-b border-slate-800 px-4 py-2 flex items-center z-50 text-xs"
+      class="bg-slate-950 text-white border-b border-slate-800 px-4 py-2 flex items-center justify-between z-50 text-xs shrink-0"
     >
       <label class="inline-flex items-center gap-3 cursor-pointer select-none bg-slate-900 border border-slate-700 px-3.5 py-1.5 rounded-xl hover:border-[#F5A623] transition-colors">
         <input
@@ -161,6 +261,14 @@
           Simulate 7" LCD
         </span>
       </label>
+
+      <!-- Idle Auto-Reset Indicator -->
+      <div class="flex items-center gap-2 font-mono text-[11px] text-slate-400">
+        <span>Idle Timer:</span>
+        <span id="idle-timer-badge" class="px-2 py-0.5 rounded bg-slate-900 border border-slate-800 text-amber-400">
+          45s
+        </span>
+      </div>
     </div>
 
     <!-- =================================================================== -->
@@ -175,437 +283,626 @@
           id="kiosk-lcd-viewport"
           class="w-full min-h-screen flex flex-col bg-[#F8FAFC] text-slate-900 relative overflow-hidden"
         >
-              <!-- SLEEK MINIMAL TOP HEADER BAR (No Green Strip Below) -->
-              <div class="sticky top-0 z-30 shrink-0">
-                <div
-                  id="kiosk-brand-header"
-                  class="bg-[#003087] text-white px-5 py-3 flex items-center justify-between gap-3 shadow-xs"
-                >
-                  <button
-                    type="button"
-                    onclick="goToWelcomeScreen()"
-                    class="flex items-center gap-2.5 text-left cursor-pointer min-w-0"
-                  >
-                    <div
-                      id="kiosk-brand-logo"
-                      class="w-9 h-9 rounded-xl bg-[#F5A623] text-[#003087] font-heading font-extrabold text-sm flex items-center justify-center shrink-0"
-                    >
-                      AU
-                    </div>
-                    <span
-                      id="kiosk-brand-title"
-                      class="text-xl font-extrabold tracking-tight text-white font-heading leading-none"
-                    >
-                      LabGuard+
-                    </span>
-                  </button>
+          <!-- ========================================================= -->
+          <!-- SCREEN 0: ATTRACT / START SCREEN (AU SEAL + TAP ANYWHERE) -->
+          <!-- ========================================================= -->
+          <section
+            id="attract-screen"
+            onclick="goToWelcomeScreen()"
+            class="flex-1 flex flex-col items-center justify-center text-center px-6 py-8 bg-gradient-to-br from-[#001D53] via-[#003087] to-[#0A255C] text-white cursor-pointer relative overflow-hidden select-none transition-all duration-300"
+          >
+            <!-- Background Decorative Subtle Glow -->
+            <div class="absolute -top-24 -left-24 w-72 h-72 rounded-full bg-blue-400/10 blur-3xl pointer-events-none"></div>
+            <div class="absolute -bottom-24 -right-24 w-72 h-72 rounded-full bg-[#F5A623]/15 blur-3xl pointer-events-none"></div>
 
-                  <!-- Top Action Buttons (Visible inside Catalog) -->
-                  <div id="top-mode-bar" class="hidden flex items-center gap-1.5 shrink-0">
-                    <button
-                      id="top-borrow-btn"
-                      type="button"
-                      onclick="openKioskFlow('borrow')"
-                      class="px-4 py-2 rounded-xl font-heading font-extrabold text-xs tracking-wide transition-all cursor-pointer flex items-center gap-1.5 bg-[#F5A623] text-slate-950"
-                    >
-                      <span>Borrow</span>
-                    </button>
+            <div class="relative z-10 flex flex-col items-center max-w-xl mx-auto space-y-4">
+              <!-- Official Arellano University Seal -->
+              <div class="relative">
+                <img
+                  id="attract-seal"
+                  src="/images/au_seal.jpg"
+                  alt="Arellano University Seal"
+                  class="w-28 h-28 sm:w-32 sm:h-32 object-contain rounded-full bg-white p-1 shadow-2xl ring-4 ring-white/30 animate-seal-halo"
+                />
+              </div>
 
-                    <button
-                      id="top-return-btn"
-                      type="button"
-                      onclick="openKioskFlow('return')"
-                      class="px-4 py-2 rounded-xl font-heading font-extrabold text-xs tracking-wide transition-all cursor-pointer flex items-center gap-1.5 bg-white/15 text-white hover:bg-white/25"
-                    >
-                      <span>Return</span>
-                      <span id="top-return-count" class="px-1.5 py-0.2 rounded bg-white/20 font-mono text-[10px]">0</span>
-                    </button>
+              <!-- Main Titles -->
+              <div class="space-y-1">
+                <p class="text-[11px] sm:text-xs font-mono font-bold uppercase tracking-widest text-amber-300">
+                  Arellano University – Jose Rizal Campus
+                </p>
+                <h1 id="attract-title" class="text-4xl sm:text-5xl font-extrabold font-heading tracking-tight text-white drop-shadow-sm">
+                  LabGuard+
+                </h1>
+                <p id="attract-subtitle" class="text-xs sm:text-sm text-blue-100 font-medium max-w-md mx-auto">
+                  Smart Science Laboratory Safety Station
+                </p>
+              </div>
 
-                    <button
-                      id="top-start-over-btn"
-                      type="button"
-                      onclick="goToWelcomeScreen()"
-                      class="px-3 py-2 rounded-xl font-heading font-bold text-xs text-white/90 bg-white/10 hover:bg-white/20 cursor-pointer"
-                    >
-                      Home
-                    </button>
-                  </div>
+              <!-- Interactive Touch Cue with Gentle Breathing Animation -->
+              <div class="pt-3">
+                <div class="inline-flex items-center gap-2.5 px-6 py-3 rounded-full bg-white/15 hover:bg-white/20 active:scale-95 border border-white/30 backdrop-blur-md text-white font-heading font-extrabold text-xs sm:text-sm tracking-wide shadow-lg animate-breathe transition-all">
+                  <span>TOUCH SCREEN TO BEGIN</span>
+                  <span class="text-[#F5A623] text-base">→</span>
                 </div>
               </div>
 
-              <!-- ========================================================= -->
-              <!-- SCREEN 1: MINIMAL TOUCHSCREEN WELCOME SCREEN              -->
-              <!-- ========================================================= -->
-              <section
-                id="welcome-screen"
-                class="flex-1 flex flex-col justify-center max-w-[1120px] w-full mx-auto px-6 py-6 gap-6"
+              <p class="text-[10px] text-blue-200/80 font-mono pt-1">
+                Touch anywhere on the display to access equipment
+              </p>
+            </div>
+          </section>
+
+          <!-- ========================================================= -->
+          <!-- TOP HEADER BAR (Visible inside Welcome & Catalog Screens) -->
+          <!-- ========================================================= -->
+          <div id="kiosk-top-bar" class="hidden sticky top-0 z-30 shrink-0">
+            <div
+              id="kiosk-brand-header"
+              class="bg-[#003087] text-white px-5 py-2.5 flex items-center justify-between gap-3 shadow-xs"
+            >
+              <button
+                type="button"
+                onclick="goToAttractScreen()"
+                class="flex items-center gap-2.5 text-left cursor-pointer min-w-0"
+                title="Return to Start Screen"
               >
-                <div id="welcome-header-block" class="text-center max-w-xl mx-auto space-y-1">
-                  <h1 class="text-3xl sm:text-4xl font-extrabold text-slate-900 font-heading tracking-tight">
-                    Welcome to LabGuard+
-                  </h1>
-                  <p class="text-xs sm:text-sm text-slate-500">
-                    Tap an option below to borrow or return laboratory equipment
+                <img
+                  id="kiosk-brand-logo"
+                  src="/images/au_seal.jpg"
+                  alt="Arellano University"
+                  class="w-8 h-8 sm:w-9 sm:h-9 object-contain rounded-full bg-white p-0.5 shadow-xs shrink-0"
+                />
+                <span
+                  id="kiosk-brand-title"
+                  class="text-lg sm:text-xl font-extrabold tracking-tight text-white font-heading leading-none"
+                >
+                  LabGuard+
+                </span>
+              </button>
+
+              <!-- Live LED Safety Status Indicator Pill -->
+              <div
+                id="kiosk-led-pill"
+                class="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-500/20 border border-emerald-400/50 text-emerald-100 text-[10px] sm:text-xs font-mono font-bold tracking-wide shrink-0 transition-all"
+                title="Live Station LED Safety Status"
+              >
+                <span id="kiosk-led-dot" class="w-2.5 h-2.5 rounded-full bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.9)]"></span>
+                <span id="kiosk-led-text">LED GREEN · SAFE</span>
+              </div>
+
+              <!-- Top Action Buttons (Visible inside Catalog) -->
+              <div id="top-mode-bar" class="hidden flex items-center gap-1.5 shrink-0">
+                <button
+                  id="top-borrow-btn"
+                  type="button"
+                  onclick="openKioskFlow('borrow')"
+                  class="px-3.5 py-2 rounded-xl font-heading font-extrabold text-xs tracking-wide transition-all cursor-pointer flex items-center gap-1.5 bg-[#F5A623] text-slate-950"
+                >
+                  <span>Borrow</span>
+                </button>
+
+                <button
+                  id="top-return-btn"
+                  type="button"
+                  onclick="openKioskFlow('return')"
+                  class="px-3.5 py-2 rounded-xl font-heading font-extrabold text-xs tracking-wide transition-all cursor-pointer flex items-center gap-1.5 bg-white/15 text-white hover:bg-white/25"
+                >
+                  <span>Return</span>
+                  <span id="top-return-count" class="px-1.5 py-0.2 rounded bg-white/20 font-mono text-[10px]">0</span>
+                </button>
+
+                <button
+                  id="top-start-over-btn"
+                  type="button"
+                  onclick="goToAttractScreen()"
+                  class="px-3 py-2 rounded-xl font-heading font-bold text-xs text-white/90 bg-white/10 hover:bg-white/20 cursor-pointer"
+                >
+                  Exit
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- ========================================================= -->
+          <!-- SCREEN 1: WELCOME SCREEN (BORROW VS RETURN TOUCH CARDS)   -->
+          <!-- ========================================================= -->
+          <section
+            id="welcome-screen"
+            class="hidden flex-1 flex flex-col justify-center max-w-[1120px] w-full mx-auto px-6 py-6 gap-5"
+          >
+            <div id="welcome-header-block" class="text-center max-w-xl mx-auto space-y-1">
+              <h1 class="text-3xl sm:text-4xl font-extrabold text-slate-900 font-heading tracking-tight">
+                Welcome to LabGuard+
+              </h1>
+              <p class="text-xs sm:text-sm text-slate-500">
+                Select an option below to borrow or return science laboratory equipment
+              </p>
+            </div>
+
+            <!-- CLEAN BORROW OR RETURN TOUCH CARDS -->
+            <div id="welcome-cards-grid" class="grid grid-cols-1 sm:grid-cols-2 gap-5 max-w-3xl w-full mx-auto">
+              <!-- Card 1: BORROW EQUIPMENT -->
+              <button
+                type="button"
+                onclick="openKioskFlow('borrow')"
+                class="welcome-touch-card group bg-white hover:bg-blue-50/30 active:scale-[0.99] border-2 border-slate-200 hover:border-[#003087] rounded-3xl p-6 text-center transition-all shadow-xs hover:shadow-lg flex flex-col items-center justify-between min-h-[250px] cursor-pointer"
+              >
+                <div class="welcome-touch-icon w-20 h-20 rounded-2xl bg-blue-50 flex items-center justify-center p-3.5">
+                  <img
+                    src="/images/equipment/LG-EQ-001.svg"
+                    alt="Borrow Equipment"
+                    class="w-full h-full object-contain"
+                  />
+                </div>
+
+                <div class="space-y-1 my-2">
+                  <h2 class="text-2xl font-extrabold text-slate-900 font-heading">
+                    Borrow Equipment
+                  </h2>
+                  <p class="text-xs text-slate-500 max-w-xs mx-auto">
+                    Select apparatus into your basket and scan the checkout QR code with your phone.
                   </p>
                 </div>
 
-                <!-- CLEAN BORROW OR RETURN TOUCH CARDS -->
-                <div id="welcome-cards-grid" class="grid grid-cols-1 sm:grid-cols-2 gap-5 max-w-3xl w-full mx-auto">
-                  <!-- Card 1: BORROW EQUIPMENT -->
-                  <button
-                    type="button"
-                    onclick="openKioskFlow('borrow')"
-                    class="welcome-touch-card group bg-white hover:bg-blue-50/30 active:scale-[0.99] border-2 border-slate-200 hover:border-[#003087] rounded-3xl p-6 text-center transition-all shadow-xs hover:shadow-lg flex flex-col items-center justify-between min-h-[260px] cursor-pointer"
-                  >
-                    <div class="welcome-touch-icon w-20 h-20 rounded-2xl bg-blue-50 flex items-center justify-center p-3.5">
-                      <img
-                        src="/images/equipment/LG-EQ-001.svg"
-                        alt="Borrow Equipment"
-                        class="w-full h-full object-contain"
-                      />
-                    </div>
-
-                    <div class="space-y-1 my-2">
-                      <h2 class="text-2xl font-extrabold text-slate-900 font-heading">
-                        Borrow Equipment
-                      </h2>
-                      <p class="text-xs text-slate-500 max-w-xs mx-auto">
-                        Select apparatus into your basket and scan the checkout QR code with your phone.
-                      </p>
-                    </div>
-
-                    <div class="welcome-touch-cta w-full py-3 px-4 rounded-xl bg-[#003087] group-hover:bg-[#002466] text-white font-heading font-bold text-xs sm:text-sm tracking-wide flex items-center justify-center gap-2">
-                      <span>Tap to Borrow</span>
-                      <span>→</span>
-                    </div>
-                  </button>
-
-                  <!-- Card 2: RETURN EQUIPMENT -->
-                  <button
-                    type="button"
-                    onclick="openKioskFlow('return')"
-                    class="welcome-touch-card group bg-white hover:bg-emerald-50/30 active:scale-[0.99] border-2 border-slate-200 hover:border-[#16A34A] rounded-3xl p-6 text-center transition-all shadow-xs hover:shadow-lg flex flex-col items-center justify-between min-h-[260px] cursor-pointer"
-                  >
-                    <div class="welcome-touch-icon w-20 h-20 rounded-2xl bg-emerald-50 flex items-center justify-center p-3.5">
-                      <img
-                        src="/images/equipment/LG-EQ-002.svg"
-                        alt="Return Equipment"
-                        class="w-full h-full object-contain"
-                      />
-                    </div>
-
-                    <div class="space-y-1 my-2">
-                      <h2 class="text-2xl font-extrabold text-slate-900 font-heading">
-                        Return Equipment
-                      </h2>
-                      <p class="text-xs text-slate-500 max-w-xs mx-auto">
-                        Select your active borrow record and confirm returned apparatus condition.
-                      </p>
-                    </div>
-
-                    <div class="welcome-touch-cta w-full py-3 px-4 rounded-xl bg-[#16A34A] group-hover:bg-emerald-700 text-white font-heading font-bold text-xs sm:text-sm tracking-wide flex items-center justify-center gap-2">
-                      <span>Tap to Return (<span id="welcome-return-count">0</span>)</span>
-                      <span>→</span>
-                    </div>
-                  </button>
+                <div class="welcome-touch-cta w-full py-3 px-4 rounded-xl bg-[#003087] group-hover:bg-[#002466] text-white font-heading font-bold text-xs sm:text-sm tracking-wide flex items-center justify-center gap-2">
+                  <span>Tap to Borrow</span>
+                  <span>→</span>
                 </div>
-              </section>
+              </button>
 
-              <!-- ========================================================= -->
-              <!-- SCREEN 2: MAIN CATALOG (SINGLE BASKET + ITEMS PRIORITY)   -->
-              <!-- ========================================================= -->
-              <main
-                id="kiosk-catalog-screen"
-                class="hidden flex-1 flex flex-col max-w-[1440px] w-full mx-auto px-5 py-3 relative overflow-hidden"
+              <!-- Card 2: RETURN EQUIPMENT -->
+              <button
+                type="button"
+                onclick="openKioskFlow('return')"
+                class="welcome-touch-card group bg-white hover:bg-emerald-50/30 active:scale-[0.99] border-2 border-slate-200 hover:border-[#16A34A] rounded-3xl p-6 text-center transition-all shadow-xs hover:shadow-lg flex flex-col items-center justify-between min-h-[250px] cursor-pointer"
               >
-                <!-- Only shown if Admin sets Lab to UNSAFE (Red Lockout) -->
-                <div id="unsafe-lockout-alert" class="hidden mb-2.5 p-2.5 bg-red-50 border border-red-200 rounded-xl text-red-900 text-xs shrink-0">
-                  <p class="font-bold">Laboratory Safety Alert — Equipment Checkout Paused</p>
+                <div class="welcome-touch-icon w-20 h-20 rounded-2xl bg-emerald-50 flex items-center justify-center p-3.5">
+                  <img
+                    src="/images/equipment/LG-EQ-002.svg"
+                    alt="Return Equipment"
+                    class="w-full h-full object-contain"
+                  />
                 </div>
 
-                <!-- ======================================================= -->
-                <!-- FLOW A: BORROW EQUIPMENT                                -->
-                <!-- ======================================================= -->
-                <section id="borrow-section" class="flex-1 flex flex-col min-h-0 relative overflow-hidden">
-                  <!-- Clean Top Bar: Collapsible Category Button + Active Title + SINGLE Basket Trigger -->
-                  <div class="bg-white border border-slate-200 rounded-xl px-3 py-2 mb-2.5 flex items-center justify-between gap-3 shrink-0">
-                    <div class="flex items-center gap-2.5 min-w-0">
+                <div class="space-y-1 my-2">
+                  <h2 class="text-2xl font-extrabold text-slate-900 font-heading">
+                    Return Equipment
+                  </h2>
+                  <p class="text-xs text-slate-500 max-w-xs mx-auto">
+                    Select your active borrow record and confirm returned apparatus condition.
+                  </p>
+                </div>
+
+                <div class="welcome-touch-cta w-full py-3 px-4 rounded-xl bg-[#16A34A] group-hover:bg-emerald-700 text-white font-heading font-bold text-xs sm:text-sm tracking-wide flex items-center justify-center gap-2">
+                  <span>Tap to Return (<span id="welcome-return-count">0</span>)</span>
+                  <span>→</span>
+                </div>
+              </button>
+            </div>
+          </section>
+
+          <!-- ========================================================= -->
+          <!-- SCREEN 2: MAIN CATALOG (SEARCH WITH TOUCH KEYBOARD)       -->
+          <!-- ========================================================= -->
+          <main
+            id="kiosk-catalog-screen"
+            class="hidden flex-1 flex flex-col max-w-[1440px] w-full mx-auto px-5 py-3 relative overflow-hidden"
+          >
+            <!-- Shown if LED Safety Status is CAUTION (Yellow) or UNSAFE (Red) -->
+            <div id="safety-status-banner" class="hidden mb-2 p-2.5 bg-red-50 border border-red-200 rounded-xl text-red-900 text-xs shrink-0 flex items-center justify-between gap-2">
+              <div class="flex items-center gap-2 min-w-0">
+                <span id="safety-banner-icon" class="font-mono font-bold shrink-0">▲ CAUTION</span>
+                <p id="safety-banner-msg" class="font-semibold truncate"></p>
+              </div>
+            </div>
+
+            <!-- ======================================================= -->
+            <!-- FLOW A: BORROW EQUIPMENT                                -->
+            <!-- ======================================================= -->
+            <section id="borrow-section" class="flex-1 flex flex-col min-h-0 relative overflow-hidden">
+              <!-- Top Toolbar: Categories Button + Live Search Button + Active Title + Single Basket Trigger -->
+              <div class="bg-white border border-slate-200 rounded-xl px-3 py-2 mb-2 flex items-center justify-between gap-2 shrink-0">
+                <div class="flex items-center gap-2 min-w-0">
+                  <!-- Category Drawer Toggle -->
+                  <button
+                    type="button"
+                    id="category-drawer-toggle-btn"
+                    onclick="toggleCategorySidebar()"
+                    class="px-2.5 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-800 font-heading font-bold text-xs flex items-center gap-1.5 cursor-pointer shrink-0"
+                  >
+                    <span id="cat-toggle-icon">☰</span>
+                    <span>Categories</span>
+                  </button>
+
+                  <!-- On-Screen Keyboard Search Trigger -->
+                  <button
+                    type="button"
+                    id="search-trigger-btn"
+                    onclick="toggleTouchKeyboard(true)"
+                    class="px-3 py-1.5 rounded-lg border border-slate-200 hover:border-[#003087] bg-slate-50 hover:bg-white text-slate-700 text-xs font-medium flex items-center gap-2 cursor-pointer transition-colors shrink-0"
+                  >
+                    <span>🔍</span>
+                    <span id="search-bar-label" class="font-mono text-[11px] text-slate-600">Search items...</span>
+                    <span id="search-active-pill" class="hidden px-1.5 py-0.2 rounded bg-[#003087] text-white text-[10px] font-bold">1</span>
+                  </button>
+
+                  <h2 id="active-category-heading" class="text-xs sm:text-sm font-extrabold text-slate-900 font-heading truncate hidden sm:block">
+                    All Apparatus
+                  </h2>
+                </div>
+
+                <!-- SINGLE BASKET BUTTON (Opens / Collapses the Popup Basket Window) -->
+                <button
+                  type="button"
+                  id="single-basket-btn"
+                  onclick="toggleBasketFromTopBar()"
+                  class="px-3.5 py-1.5 rounded-xl bg-[#003087] hover:bg-[#002466] text-white font-heading font-bold text-xs flex items-center gap-2 cursor-pointer shrink-0 shadow-xs transition-all"
+                >
+                  <span>Basket</span>
+                  <span
+                    id="top-basket-count-pill"
+                    class="px-2 py-0.5 rounded-md bg-[#F5A623] text-slate-950 font-mono text-[11px] font-extrabold tabular-nums"
+                  >
+                    0
+                  </span>
+                </button>
+              </div>
+
+              <!-- Main Workspace: Collapsible Left Sidebar + Unobstructed Items Grid -->
+              <div class="flex-1 flex gap-3 min-h-0 relative overflow-hidden">
+                <!-- COLLAPSIBLE LEFT CATEGORY SIDEBAR -->
+                <aside
+                  id="collapsible-category-sidebar"
+                  class="hidden w-44 shrink-0 bg-white border border-slate-200 rounded-2xl p-2 flex flex-col justify-between shadow-md z-20 rpi-scroll overflow-y-auto"
+                >
+                  <div class="space-y-1">
+                    <div class="flex items-center justify-between px-2 py-1 border-b border-slate-100">
+                      <span class="text-[10px] font-mono uppercase tracking-wider text-slate-400 font-bold">
+                        Category
+                      </span>
                       <button
                         type="button"
-                        id="category-drawer-toggle-btn"
-                        onclick="toggleCategorySidebar()"
-                        class="px-3 py-2 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-800 font-heading font-bold text-xs flex items-center gap-2 cursor-pointer shrink-0"
+                        onclick="toggleCategorySidebar(false)"
+                        class="text-[11px] font-bold text-slate-400 hover:text-slate-700 cursor-pointer"
                       >
-                        <span id="cat-toggle-icon">☰</span>
-                        <span>Categories</span>
+                        ✕
                       </button>
-
-                      <h2 id="active-category-heading" class="text-sm sm:text-base font-extrabold text-slate-900 font-heading truncate">
-                        All Apparatus
-                      </h2>
                     </div>
+                    <div id="category-tabs" class="flex flex-col gap-1 pt-1"></div>
+                  </div>
+                </aside>
 
-                    <!-- SINGLE BASKET BUTTON (Opens / Collapses the Popup Basket Window) -->
+                <!-- FULL-PRIORITY SCROLLABLE EQUIPMENT ITEMS GRID -->
+                <div id="items-scroll-container" class="flex-1 overflow-y-auto pr-1 pb-2 rpi-scroll">
+                  <div id="equipment-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3"></div>
+                </div>
+              </div>
+
+              <!-- ===================================================== -->
+              <!-- ON-SCREEN VIRTUAL TOUCH KEYBOARD DRAWER               -->
+              <!-- ===================================================== -->
+              <div
+                id="virtual-keyboard-drawer"
+                class="hidden absolute inset-x-0 bottom-0 z-40 bg-slate-900/95 backdrop-blur-md border-t-2 border-[#003087] text-white p-3 shadow-2xl rounded-t-3xl transition-all"
+              >
+                <div class="max-w-2xl mx-auto space-y-2">
+                  <!-- Search Input Box & Controls in Keyboard -->
+                  <div class="flex items-center justify-between gap-2 bg-slate-800 border border-slate-700 rounded-xl px-3 py-1.5">
+                    <div class="flex items-center gap-2 min-w-0 flex-1">
+                      <span class="text-xs text-slate-400">🔍</span>
+                      <input
+                        id="vk-display-input"
+                        type="text"
+                        readonly
+                        placeholder="Type apparatus name or compartment..."
+                        class="bg-transparent text-white font-mono text-xs w-full focus:outline-none"
+                      />
+                    </div>
                     <button
                       type="button"
-                      id="single-basket-btn"
-                      onclick="toggleBasketFromTopBar()"
-                      class="px-3.5 py-2 rounded-xl bg-[#003087] hover:bg-[#002466] text-white font-heading font-bold text-xs flex items-center gap-2 cursor-pointer shrink-0 shadow-xs transition-all"
+                      onclick="clearKeyboardInput()"
+                      class="px-2 py-1 text-[11px] text-slate-400 hover:text-white cursor-pointer font-bold"
                     >
-                      <span>Basket</span>
-                      <span
-                        id="top-basket-count-pill"
-                        class="px-2 py-0.5 rounded-md bg-[#F5A623] text-slate-950 font-mono text-[11px] font-extrabold tabular-nums"
-                      >
-                        0
-                      </span>
+                      Clear
+                    </button>
+                    <button
+                      type="button"
+                      onclick="toggleTouchKeyboard(false)"
+                      class="px-3 py-1 bg-[#003087] text-white text-xs font-heading font-bold rounded-lg cursor-pointer"
+                    >
+                      Done ✕
                     </button>
                   </div>
 
-                  <!-- Main Workspace: Collapsible Left Sidebar + Unobstructed Items Grid -->
-                  <div class="flex-1 flex gap-3 min-h-0 relative overflow-hidden">
-                    <!-- COLLAPSIBLE LEFT CATEGORY SIDEBAR -->
-                    <aside
-                      id="collapsible-category-sidebar"
-                      class="hidden w-44 shrink-0 bg-white border border-slate-200 rounded-2xl p-2 flex flex-col justify-between shadow-md z-20 rpi-scroll overflow-y-auto"
+                  <!-- Virtual QWERTY Touch Keys Grid -->
+                  <div class="space-y-1.5 select-none text-slate-900 font-bold font-mono text-xs">
+                    <!-- Numbers Row -->
+                    <div class="flex justify-center gap-1">
+                      <button type="button" onclick="pressKey('1')" class="vk-key h-9 flex-1 max-w-[42px] bg-slate-200 hover:bg-white active:bg-slate-300 rounded-lg">1</button>
+                      <button type="button" onclick="pressKey('2')" class="vk-key h-9 flex-1 max-w-[42px] bg-slate-200 hover:bg-white active:bg-slate-300 rounded-lg">2</button>
+                      <button type="button" onclick="pressKey('3')" class="vk-key h-9 flex-1 max-w-[42px] bg-slate-200 hover:bg-white active:bg-slate-300 rounded-lg">3</button>
+                      <button type="button" onclick="pressKey('4')" class="vk-key h-9 flex-1 max-w-[42px] bg-slate-200 hover:bg-white active:bg-slate-300 rounded-lg">4</button>
+                      <button type="button" onclick="pressKey('5')" class="vk-key h-9 flex-1 max-w-[42px] bg-slate-200 hover:bg-white active:bg-slate-300 rounded-lg">5</button>
+                      <button type="button" onclick="pressKey('6')" class="vk-key h-9 flex-1 max-w-[42px] bg-slate-200 hover:bg-white active:bg-slate-300 rounded-lg">6</button>
+                      <button type="button" onclick="pressKey('7')" class="vk-key h-9 flex-1 max-w-[42px] bg-slate-200 hover:bg-white active:bg-slate-300 rounded-lg">7</button>
+                      <button type="button" onclick="pressKey('8')" class="vk-key h-9 flex-1 max-w-[42px] bg-slate-200 hover:bg-white active:bg-slate-300 rounded-lg">8</button>
+                      <button type="button" onclick="pressKey('9')" class="vk-key h-9 flex-1 max-w-[42px] bg-slate-200 hover:bg-white active:bg-slate-300 rounded-lg">9</button>
+                      <button type="button" onclick="pressKey('0')" class="vk-key h-9 flex-1 max-w-[42px] bg-slate-200 hover:bg-white active:bg-slate-300 rounded-lg">0</button>
+                    </div>
+
+                    <!-- Row 1: QWERTYUIOP -->
+                    <div class="flex justify-center gap-1">
+                      <button type="button" onclick="pressKey('Q')" class="vk-key h-9 flex-1 max-w-[42px] bg-white active:bg-slate-200 rounded-lg">Q</button>
+                      <button type="button" onclick="pressKey('W')" class="vk-key h-9 flex-1 max-w-[42px] bg-white active:bg-slate-200 rounded-lg">W</button>
+                      <button type="button" onclick="pressKey('E')" class="vk-key h-9 flex-1 max-w-[42px] bg-white active:bg-slate-200 rounded-lg">E</button>
+                      <button type="button" onclick="pressKey('R')" class="vk-key h-9 flex-1 max-w-[42px] bg-white active:bg-slate-200 rounded-lg">R</button>
+                      <button type="button" onclick="pressKey('T')" class="vk-key h-9 flex-1 max-w-[42px] bg-white active:bg-slate-200 rounded-lg">T</button>
+                      <button type="button" onclick="pressKey('Y')" class="vk-key h-9 flex-1 max-w-[42px] bg-white active:bg-slate-200 rounded-lg">Y</button>
+                      <button type="button" onclick="pressKey('U')" class="vk-key h-9 flex-1 max-w-[42px] bg-white active:bg-slate-200 rounded-lg">U</button>
+                      <button type="button" onclick="pressKey('I')" class="vk-key h-9 flex-1 max-w-[42px] bg-white active:bg-slate-200 rounded-lg">I</button>
+                      <button type="button" onclick="pressKey('O')" class="vk-key h-9 flex-1 max-w-[42px] bg-white active:bg-slate-200 rounded-lg">O</button>
+                      <button type="button" onclick="pressKey('P')" class="vk-key h-9 flex-1 max-w-[42px] bg-white active:bg-slate-200 rounded-lg">P</button>
+                    </div>
+
+                    <!-- Row 2: ASDFGHJKL -->
+                    <div class="flex justify-center gap-1">
+                      <button type="button" onclick="pressKey('A')" class="vk-key h-9 flex-1 max-w-[42px] bg-white active:bg-slate-200 rounded-lg">A</button>
+                      <button type="button" onclick="pressKey('S')" class="vk-key h-9 flex-1 max-w-[42px] bg-white active:bg-slate-200 rounded-lg">S</button>
+                      <button type="button" onclick="pressKey('D')" class="vk-key h-9 flex-1 max-w-[42px] bg-white active:bg-slate-200 rounded-lg">D</button>
+                      <button type="button" onclick="pressKey('F')" class="vk-key h-9 flex-1 max-w-[42px] bg-white active:bg-slate-200 rounded-lg">F</button>
+                      <button type="button" onclick="pressKey('G')" class="vk-key h-9 flex-1 max-w-[42px] bg-white active:bg-slate-200 rounded-lg">G</button>
+                      <button type="button" onclick="pressKey('H')" class="vk-key h-9 flex-1 max-w-[42px] bg-white active:bg-slate-200 rounded-lg">H</button>
+                      <button type="button" onclick="pressKey('J')" class="vk-key h-9 flex-1 max-w-[42px] bg-white active:bg-slate-200 rounded-lg">J</button>
+                      <button type="button" onclick="pressKey('K')" class="vk-key h-9 flex-1 max-w-[42px] bg-white active:bg-slate-200 rounded-lg">K</button>
+                      <button type="button" onclick="pressKey('L')" class="vk-key h-9 flex-1 max-w-[42px] bg-white active:bg-slate-200 rounded-lg">L</button>
+                    </div>
+
+                    <!-- Row 3: ZXCVBNM + Backspace -->
+                    <div class="flex justify-center gap-1">
+                      <button type="button" onclick="pressKey('Z')" class="vk-key h-9 flex-1 max-w-[42px] bg-white active:bg-slate-200 rounded-lg">Z</button>
+                      <button type="button" onclick="pressKey('X')" class="vk-key h-9 flex-1 max-w-[42px] bg-white active:bg-slate-200 rounded-lg">X</button>
+                      <button type="button" onclick="pressKey('C')" class="vk-key h-9 flex-1 max-w-[42px] bg-white active:bg-slate-200 rounded-lg">C</button>
+                      <button type="button" onclick="pressKey('V')" class="vk-key h-9 flex-1 max-w-[42px] bg-white active:bg-slate-200 rounded-lg">V</button>
+                      <button type="button" onclick="pressKey('B')" class="vk-key h-9 flex-1 max-w-[42px] bg-white active:bg-slate-200 rounded-lg">B</button>
+                      <button type="button" onclick="pressKey('N')" class="vk-key h-9 flex-1 max-w-[42px] bg-white active:bg-slate-200 rounded-lg">N</button>
+                      <button type="button" onclick="pressKey('M')" class="vk-key h-9 flex-1 max-w-[42px] bg-white active:bg-slate-200 rounded-lg">M</button>
+                      <button type="button" onclick="pressBackspace()" class="vk-key h-9 px-3 bg-rose-100 hover:bg-rose-200 text-rose-900 rounded-lg font-bold flex items-center justify-center">⌫ Back</button>
+                    </div>
+
+                    <!-- Row 4: Space Bar -->
+                    <div class="flex justify-center gap-1 pt-0.5">
+                      <button type="button" onclick="pressSpace()" class="vk-key h-9 w-64 bg-slate-100 hover:bg-white active:bg-slate-300 rounded-lg font-sans text-xs font-semibold text-slate-700">
+                        SPACE
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- ===================================================== -->
+              <!-- POPUP EQUIPMENT BASKET WINDOW                         -->
+              <!-- ===================================================== -->
+              <div
+                id="basket-popup-window"
+                class="hidden absolute bottom-2 right-2 z-40 w-80 sm:w-96 bg-white border-2 border-slate-300 rounded-2xl shadow-2xl flex flex-col overflow-hidden transition-all"
+              >
+                <!-- Popup Window Title Bar -->
+                <div class="bg-[#003087] text-white px-3.5 py-2.5 flex items-center justify-between gap-2 shrink-0">
+                  <div class="flex items-center gap-2 min-w-0">
+                    <span class="font-heading font-bold text-xs sm:text-sm truncate">
+                      Equipment Basket
+                    </span>
+                    <span
+                      id="basket-total-badge"
+                      class="px-2 py-0.5 rounded-md bg-[#F5A623] text-slate-950 font-mono text-[11px] font-extrabold tabular-nums shrink-0"
                     >
-                      <div class="space-y-1">
-                        <div class="flex items-center justify-between px-2 py-1 border-b border-slate-100">
-                          <span class="text-[10px] font-mono uppercase tracking-wider text-slate-400 font-bold">
-                            Category
-                          </span>
-                          <button
-                            type="button"
-                            onclick="toggleCategorySidebar(false)"
-                            class="text-[11px] font-bold text-slate-400 hover:text-slate-700 cursor-pointer"
-                          >
-                            ✕
-                          </button>
-                        </div>
-                        <div id="category-tabs" class="flex flex-col gap-1 pt-1"></div>
-                      </div>
-                    </aside>
-
-                    <!-- FULL-PRIORITY SCROLLABLE EQUIPMENT ITEMS GRID (No bottom bar blocking cards) -->
-                    <div id="items-scroll-container" class="flex-1 overflow-y-auto pr-1 pb-2 rpi-scroll">
-                      <div id="equipment-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3"></div>
-                    </div>
-                  </div>
-
-                  <!-- ===================================================== -->
-                  <!-- POPUP EQUIPMENT BASKET WINDOW (COLLAPSIBLE & MAXIMIZABLE) -->
-                  <!-- ===================================================== -->
-                  <div
-                    id="basket-popup-window"
-                    class="hidden absolute bottom-2 right-2 z-40 w-80 sm:w-96 bg-white border-2 border-slate-300 rounded-2xl shadow-2xl flex flex-col overflow-hidden transition-all"
-                  >
-                    <!-- Popup Window Title Bar -->
-                    <div class="bg-[#003087] text-white px-3.5 py-2.5 flex items-center justify-between gap-2 shrink-0">
-                      <div class="flex items-center gap-2 min-w-0">
-                        <span class="font-heading font-bold text-xs sm:text-sm truncate">
-                          Equipment Basket
-                        </span>
-                        <span
-                          id="basket-total-badge"
-                          class="px-2 py-0.5 rounded-md bg-[#F5A623] text-slate-950 font-mono text-[11px] font-extrabold tabular-nums shrink-0"
-                        >
-                          0
-                        </span>
-                      </div>
-
-                      <!-- Window Controls: Maximize/Restore & Collapse -->
-                      <div class="flex items-center gap-1.5 shrink-0">
-                        <button
-                          type="button"
-                          id="basket-max-toggle-btn"
-                          onclick="toggleBasketMaximize()"
-                          class="px-2 py-1 rounded bg-white/15 hover:bg-white/25 text-[10px] font-mono font-bold text-white cursor-pointer"
-                        >
-                          ⛶ Maximize
-                        </button>
-                        <button
-                          type="button"
-                          onclick="toggleBasketPopup('collapse')"
-                          class="px-2 py-1 rounded bg-white/15 hover:bg-white/25 text-[10px] font-mono font-bold text-white cursor-pointer"
-                        >
-                          ✕ Hide
-                        </button>
-                      </div>
-                    </div>
-
-                    <!-- Popup Window Body (Includes "How to Use" per Borrowed Item) -->
-                    <div class="p-3 flex-1 flex flex-col justify-between space-y-2.5 overflow-y-auto rpi-scroll bg-white">
-                      <div id="basket-empty-state" class="py-8 text-center space-y-1">
-                        <p class="text-xs font-bold text-slate-700">Your basket is empty</p>
-                        <p class="text-[11px] text-slate-500">
-                          Tap "+ Add" on any apparatus card to select items.
-                        </p>
-                      </div>
-
-                      <div id="basket-filled-state" class="hidden space-y-2.5 flex-1 flex flex-col justify-between min-h-0">
-                        <div id="basket-items-list" class="space-y-2 max-h-48 overflow-y-auto pr-1 rpi-scroll"></div>
-
-                        <div id="checkout-error-box" class="hidden text-[11px] font-semibold text-red-600 bg-red-50 p-2 rounded-lg border border-red-200"></div>
-
-                        <div class="pt-2 border-t border-slate-100 flex items-center gap-2 shrink-0">
-                          <button
-                            type="button"
-                            onclick="clearBasket()"
-                            class="px-3 py-2.5 text-[11px] font-bold text-slate-500 hover:text-red-600 bg-slate-100 rounded-xl cursor-pointer shrink-0"
-                          >
-                            Clear
-                          </button>
-                          <button
-                            id="checkout-btn"
-                            type="button"
-                            onclick="createCheckoutQrSession()"
-                            class="flex-1 py-2.5 px-3 bg-[#C8102E] hover:bg-[#a50d25] active:scale-[0.99] text-white font-heading font-bold text-xs rounded-xl transition-all shadow-xs cursor-pointer"
-                          >
-                            Checkout & Generate QR →
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </section>
-
-                <!-- ======================================================= -->
-                <!-- FLOW B: RETURN EQUIPMENT                                -->
-                <!-- ======================================================= -->
-                <section id="return-section" class="hidden flex-1 overflow-y-auto space-y-3 pr-1 rpi-scroll">
-                  <div id="return-success-banner" class="hidden p-3 bg-emerald-50 border border-emerald-200 rounded-xl text-xs text-emerald-900 font-semibold"></div>
-
-                  <div class="bg-white border border-slate-200 rounded-xl px-4 py-2.5 flex items-center justify-between gap-4">
-                    <h2 class="text-sm sm:text-base font-extrabold text-slate-900 font-heading">
-                      Select Your Record to Return Equipment
-                    </h2>
-                    <span class="text-xs font-mono text-slate-500">
-                      Active: <strong id="active-sessions-count">0</strong>
+                      0
                     </span>
                   </div>
 
-                  <div id="return-cards-grid" class="grid grid-cols-1 sm:grid-cols-2 gap-3"></div>
-                </section>
-              </main>
-
-              <!-- ========================================================= -->
-              <!-- MODAL 1: CHECKOUT QR CODE + HOW TO USE BORROWED MATERIALS -->
-              <!-- ========================================================= -->
-              <div id="qr-checkout-modal" class="hidden absolute inset-0 z-50 bg-slate-900/75 flex items-center justify-center p-3">
-                <div class="bg-white border border-slate-200 rounded-2xl max-w-lg w-full p-4 space-y-3 shadow-2xl max-h-full overflow-y-auto rpi-scroll">
-                  <div class="flex items-center justify-between gap-2 border-b border-slate-100 pb-2.5">
-                    <div>
-                      <h2 class="text-base sm:text-lg font-extrabold text-slate-900 font-heading">
-                        Scan QR to Complete Checkout
-                      </h2>
-                      <p id="qr-modal-token" class="font-mono text-[11px] text-slate-500"></p>
-                    </div>
+                  <!-- Window Controls: Maximize/Restore & Collapse -->
+                  <div class="flex items-center gap-1.5 shrink-0">
                     <button
                       type="button"
-                      onclick="closeQrModal()"
-                      class="px-2.5 py-1 rounded-lg bg-slate-100 text-xs font-bold text-slate-700 hover:bg-slate-200 cursor-pointer"
+                      id="basket-max-toggle-btn"
+                      onclick="toggleBasketMaximize()"
+                      class="px-2 py-1 rounded bg-white/15 hover:bg-white/25 text-[10px] font-mono font-bold text-white cursor-pointer"
                     >
-                      Close
+                      ⛶ Maximize
+                    </button>
+                    <button
+                      type="button"
+                      onclick="toggleBasketPopup('collapse')"
+                      class="px-2 py-1 rounded bg-white/15 hover:bg-white/25 text-[10px] font-mono font-bold text-white cursor-pointer"
+                    >
+                      ✕ Hide
                     </button>
                   </div>
+                </div>
 
-                  <!-- Side-by-Side QR Code & How-To-Use Material Guide -->
-                  <div class="grid grid-cols-1 sm:grid-cols-12 gap-3 items-center">
-                    <div class="sm:col-span-5 flex flex-col items-center text-center space-y-1.5">
-                      <div class="p-2 bg-white border-2 border-[#003087] rounded-2xl">
-                        <img
-                          id="qr-modal-img"
-                          src=""
-                          alt="Checkout QR Code"
-                          referrerpolicy="no-referrer"
-                          class="w-32 h-32 object-contain"
-                        />
-                      </div>
-                      <p class="text-[10px] text-slate-500">
-                        Scan with your phone camera
-                      </p>
-                    </div>
-
-                    <!-- How to Use Borrowed Material Box -->
-                    <div class="sm:col-span-7 bg-slate-50 border border-slate-200 rounded-xl p-3 space-y-1.5 max-h-44 overflow-y-auto rpi-scroll">
-                      <p class="text-[11px] font-heading font-bold text-[#003087] uppercase tracking-wider">
-                        How to Use Borrowed Material
-                      </p>
-                      <div id="qr-modal-usage-list" class="space-y-2 text-[11px] text-slate-700"></div>
-                    </div>
+                <!-- Popup Window Body (Includes "How to Use" per Borrowed Item) -->
+                <div class="p-3 flex-1 flex flex-col justify-between space-y-2.5 overflow-y-auto rpi-scroll bg-white">
+                  <div id="basket-empty-state" class="py-8 text-center space-y-1">
+                    <p class="text-xs font-bold text-slate-700">Your basket is empty</p>
+                    <p class="text-[11px] text-slate-500">
+                      Tap "+ Add" on any apparatus card to select items.
+                    </p>
                   </div>
 
-                  <div class="pt-1.5 border-t border-slate-100">
-                    <a
-                      id="qr-redirect-link"
-                      href="#"
-                      class="block w-full py-2.5 px-3 bg-[#003087] hover:bg-[#002466] text-white text-xs font-heading font-bold rounded-xl text-center transition-colors"
-                    >
-                      Open Mobile Student Form →
-                    </a>
+                  <div id="basket-filled-state" class="hidden space-y-2.5 flex-1 flex flex-col justify-between min-h-0">
+                    <div id="basket-items-list" class="space-y-2 max-h-48 overflow-y-auto pr-1 rpi-scroll"></div>
+
+                    <div id="checkout-error-box" class="hidden text-[11px] font-semibold text-red-600 bg-red-50 p-2 rounded-lg border border-red-200"></div>
+
+                    <div class="pt-2 border-t border-slate-100 flex items-center gap-2 shrink-0">
+                      <button
+                        type="button"
+                        onclick="clearBasket()"
+                        class="px-3 py-2.5 text-[11px] font-bold text-slate-500 hover:text-red-600 bg-slate-100 rounded-xl cursor-pointer shrink-0"
+                      >
+                        Clear
+                      </button>
+                      <button
+                        id="checkout-btn"
+                        type="button"
+                        onclick="createCheckoutQrSession()"
+                        class="flex-1 py-2.5 px-3 bg-[#C8102E] hover:bg-[#a50d25] active:scale-[0.99] text-white font-heading font-bold text-xs rounded-xl transition-all shadow-xs cursor-pointer"
+                      >
+                        Checkout & Generate QR →
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
+            </section>
 
-              <!-- ========================================================= -->
-              <!-- MODAL 2: CONFIRM EQUIPMENT RETURN                         -->
-              <!-- ========================================================= -->
-              <div id="return-modal" class="hidden absolute inset-0 z-50 bg-slate-900/75 flex items-center justify-center p-3">
-                <form onsubmit="submitReturnForm(event)" class="bg-white border border-slate-200 rounded-2xl max-w-sm w-full p-4 space-y-3 shadow-2xl">
-                  <div class="border-b border-slate-100 pb-2">
-                    <p class="text-[10px] font-mono font-bold text-[#16A34A] uppercase">Return Equipment</p>
-                    <h3 id="return-modal-title" class="text-base font-extrabold text-slate-900 font-heading mt-0.5"></h3>
-                  </div>
+            <!-- ======================================================= -->
+            <!-- FLOW B: RETURN EQUIPMENT (PRIVACY MASKED CARDS)         -->
+            <!-- ======================================================= -->
+            <section id="return-section" class="hidden flex-1 overflow-y-auto space-y-3 pr-1 rpi-scroll">
+              <div id="return-success-banner" class="hidden p-3 bg-emerald-50 border border-emerald-200 rounded-xl text-xs text-emerald-900 font-semibold"></div>
 
-                  <div id="return-modal-items" class="space-y-1 text-xs text-slate-700 font-mono bg-slate-50 p-2.5 rounded-xl border border-slate-200 max-h-24 overflow-y-auto"></div>
-
-                  <div>
-                    <label class="block text-xs font-bold text-slate-800 mb-1">Condition</label>
-                    <div class="grid grid-cols-3 gap-2">
-                      <button
-                        type="button"
-                        id="cond-btn-Good"
-                        onclick="selectReturnCondition('Good')"
-                        class="py-2.5 px-2 text-xs font-heading font-bold rounded-xl border-2 border-[#003087] bg-[#003087] text-white cursor-pointer"
-                      >
-                        Good
-                      </button>
-                      <button
-                        type="button"
-                        id="cond-btn-Damaged"
-                        onclick="selectReturnCondition('Damaged')"
-                        class="py-2.5 px-2 text-xs font-heading font-bold rounded-xl border-2 border-slate-200 bg-white text-slate-700 cursor-pointer"
-                      >
-                        Damaged
-                      </button>
-                      <button
-                        type="button"
-                        id="cond-btn-Missing"
-                        onclick="selectReturnCondition('Missing')"
-                        class="py-2.5 px-2 text-xs font-heading font-bold rounded-xl border-2 border-slate-200 bg-white text-slate-700 cursor-pointer"
-                      >
-                        Missing
-                      </button>
-                    </div>
-                  </div>
-
-                  <div class="pt-1 grid grid-cols-2 gap-2">
-                    <button
-                      type="button"
-                      onclick="closeReturnModal()"
-                      class="py-2.5 px-3 text-xs font-bold text-slate-700 bg-slate-100 rounded-xl cursor-pointer"
-                    >
-                      Cancel
-                    </button>
-                    <button
-                      type="submit"
-                      class="py-2.5 px-3 text-xs font-heading font-bold text-white bg-[#16A34A] hover:bg-emerald-700 rounded-xl cursor-pointer"
-                    >
-                      Confirm Return
-                    </button>
-                  </div>
-                </form>
+              <div class="bg-white border border-slate-200 rounded-xl px-4 py-2.5 flex items-center justify-between gap-4">
+                <div>
+                  <h2 class="text-sm sm:text-base font-extrabold text-slate-900 font-heading">
+                    Select Your Record to Return Equipment
+                  </h2>
+                  <p class="text-[11px] text-slate-500 font-mono">
+                    Student name & ID are privacy-masked for confidentiality
+                  </p>
+                </div>
+                <span class="text-xs font-mono text-slate-500">
+                  Active: <strong id="active-sessions-count">0</strong>
+                </span>
               </div>
+
+              <div id="return-cards-grid" class="grid grid-cols-1 sm:grid-cols-2 gap-3"></div>
+            </section>
+          </main>
+
+          <!-- ========================================================= -->
+          <!-- MODAL 1: CHECKOUT QR CODE + HOW TO USE BORROWED MATERIALS -->
+          <!-- ========================================================= -->
+          <div id="qr-checkout-modal" class="hidden absolute inset-0 z-50 bg-slate-900/75 flex items-center justify-center p-3">
+            <div class="animate-modal-pop bg-white border border-slate-200 rounded-2xl max-w-lg w-full p-4 space-y-3 shadow-2xl max-h-full overflow-y-auto rpi-scroll">
+              <div class="flex items-center justify-between gap-2 border-b border-slate-100 pb-2.5">
+                <div>
+                  <h2 class="text-base sm:text-lg font-extrabold text-slate-900 font-heading">
+                    Scan QR to Complete Checkout
+                  </h2>
+                  <p id="qr-modal-token" class="font-mono text-[11px] text-slate-500"></p>
+                </div>
+                <button
+                  type="button"
+                  onclick="closeQrModal()"
+                  class="px-2.5 py-1 rounded-lg bg-slate-100 text-xs font-bold text-slate-700 hover:bg-slate-200 cursor-pointer"
+                >
+                  Close
+                </button>
+              </div>
+
+              <!-- Side-by-Side QR Code & How-To-Use Material Guide -->
+              <div class="grid grid-cols-1 sm:grid-cols-12 gap-3 items-center">
+                <div class="sm:col-span-5 flex flex-col items-center text-center space-y-1.5">
+                  <div class="p-2 bg-white border-2 border-[#003087] rounded-2xl">
+                    <img
+                      id="qr-modal-img"
+                      src=""
+                      alt="Checkout QR Code"
+                      referrerpolicy="no-referrer"
+                      class="w-32 h-32 object-contain"
+                    />
+                  </div>
+                  <p class="text-[10px] text-slate-500">
+                    Scan with your phone camera
+                  </p>
+                </div>
+
+                <!-- How to Use Borrowed Material Box -->
+                <div class="sm:col-span-7 bg-slate-50 border border-slate-200 rounded-xl p-3 space-y-1.5 max-h-44 overflow-y-auto rpi-scroll">
+                  <p class="text-[11px] font-heading font-bold text-[#003087] uppercase tracking-wider">
+                    How to Use Borrowed Material
+                  </p>
+                  <div id="qr-modal-usage-list" class="space-y-2 text-[11px] text-slate-700"></div>
+                </div>
+              </div>
+
+              <div class="pt-1.5 border-t border-slate-100">
+                <a
+                  id="qr-redirect-link"
+                  href="#"
+                  class="block w-full py-2.5 px-3 bg-[#003087] hover:bg-[#002466] text-white text-xs font-heading font-bold rounded-xl text-center transition-colors"
+                >
+                  Open Mobile Student Form →
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- ========================================================= -->
+          <!-- MODAL 2: CONFIRM EQUIPMENT RETURN                         -->
+          <!-- ========================================================= -->
+          <div id="return-modal" class="hidden absolute inset-0 z-50 bg-slate-900/75 flex items-center justify-center p-3">
+            <form onsubmit="submitReturnForm(event)" class="animate-modal-pop bg-white border border-slate-200 rounded-2xl max-w-sm w-full p-4 space-y-3 shadow-2xl">
+              <div class="border-b border-slate-100 pb-2">
+                <p class="text-[10px] font-mono font-bold text-[#16A34A] uppercase">Return Equipment</p>
+                <h3 id="return-modal-title" class="text-base font-extrabold text-slate-900 font-heading mt-0.5"></h3>
+              </div>
+
+              <div id="return-modal-items" class="space-y-1 text-xs text-slate-700 font-mono bg-slate-50 p-2.5 rounded-xl border border-slate-200 max-h-24 overflow-y-auto"></div>
+
+              <div>
+                <label class="block text-xs font-bold text-slate-800 mb-1">Condition</label>
+                <div class="grid grid-cols-3 gap-2">
+                  <button
+                    type="button"
+                    id="cond-btn-Good"
+                    onclick="selectReturnCondition('Good')"
+                    class="py-2.5 px-2 text-xs font-heading font-bold rounded-xl border-2 border-[#003087] bg-[#003087] text-white cursor-pointer"
+                  >
+                    Good
+                  </button>
+                  <button
+                    type="button"
+                    id="cond-btn-Damaged"
+                    onclick="selectReturnCondition('Damaged')"
+                    class="py-2.5 px-2 text-xs font-heading font-bold rounded-xl border-2 border-slate-200 bg-white text-slate-700 cursor-pointer"
+                  >
+                    Damaged
+                  </button>
+                  <button
+                    type="button"
+                    id="cond-btn-Missing"
+                    onclick="selectReturnCondition('Missing')"
+                    class="py-2.5 px-2 text-xs font-heading font-bold rounded-xl border-2 border-slate-200 bg-white text-slate-700 cursor-pointer"
+                  >
+                    Missing
+                  </button>
+                </div>
+                <div
+                  id="return-condition-alert"
+                  class="hidden mt-2 p-2.5 rounded-xl border text-[11px] font-medium leading-snug"
+                ></div>
+              </div>
+
+              <div class="pt-1 grid grid-cols-2 gap-2">
+                <button
+                  type="button"
+                  onclick="closeReturnModal()"
+                  class="py-2.5 px-3 text-xs font-bold text-slate-700 bg-slate-100 rounded-xl cursor-pointer"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  class="py-2.5 px-3 text-xs font-heading font-bold text-white bg-[#16A34A] hover:bg-emerald-700 rounded-xl cursor-pointer"
+                >
+                  Confirm Return
+                </button>
+              </div>
+            </form>
+          </div>
         </div>
       </div>
     </div>
@@ -613,47 +910,31 @@
     <script>
       const CATEGORIES = [
         { id: 'All', label: 'All Apparatus' },
-        { id: 'Optical & Microscopy', label: 'Microscopy' },
         { id: 'Glassware & Measuring', label: 'Glassware' },
         { id: 'Heating & Thermal', label: 'Heating' },
-        { id: 'Balances & Analytical', label: 'Balances' },
+        { id: 'Optical & Microscopy', label: 'Microscopy' },
         { id: 'Safety & PPE', label: 'Safety & PPE' },
       ];
 
-      // Concise "How to Use" instructions for each laboratory apparatus
       const HOW_TO_USE_GUIDES = {
-        'LG-EQ-001': 'Carry with two hands (arm & base). Start on lowest 4x objective lens, clip slide on stage, and focus slowly using coarse then fine adjustment knobs.',
-        'LG-EQ-002': 'Inspect glassware for hairline cracks before pouring. Use graduated markings at eye level (bottom of meniscus) and place on wire gauze if heating.',
-        'LG-EQ-003': 'Clear flammable items, close air collar before lighting with a striker, then rotate collar open until a steady blue inner cone flame forms.',
-        'LG-EQ-004': 'Ensure spirit level bubble is centered, close glass draft shield doors, press TARE with weighing boat inside, then add sample gently.',
-        'LG-EQ-005': 'Clamp vertically on burette stand, rinse with titrant, fill above zero mark, release air bubbles from stopcock tip, and read bottom of meniscus.',
-        'LG-EQ-006': 'Remove protective cap, rinse electrode tip with distilled water, blot dry with lint-free tissue (do not rub), and submerge in test solution.',
-        'LG-EQ-007': 'Always load tubes in balanced pairs of equal mass directly opposite each other. Close lid latch firmly before starting and wait for full stop.',
-        'LG-EQ-008': 'Nest inner aluminum cup inside insulated jacket, insert thermometer and stirrer through lid slots, and record initial equilibrium temperature.',
-        'LG-EQ-009': 'Keep scalpel blades pointed away from fingers, secure specimen firmly on dissecting wax pan with T-pins, and sterilize tools after use.',
-        'LG-EQ-010': 'Button lab gown completely, fit splash goggles snug over eyes, and inspect nitrile gloves for tears before handling any reagents.',
+        'LG-EQ-001': 'Inspect beaker for chips or cracks before pouring. Place on wire gauze over a tripod stand when heating over a flame.',
+        'LG-EQ-002': 'Set graduated cylinder on a level surface and read volume from the bottom of the meniscus at eye level.',
+        'LG-EQ-003': 'Use wire gauze when heating liquids in the Florence flask and allow hot glassware to cool completely before returning.',
+        'LG-EQ-004': 'Line cone with folded filter paper for filtration and support funnel stem securely inside the receiving flask.',
+        'LG-EQ-005': 'Swirl solutions gently by holding the narrow neck of the Erlenmeyer flask to mix without spilling.',
+        'LG-EQ-006': 'Keep test tubes upright in the rack. Use the wire holder clamp when heating and point opening away from peers.',
+        'LG-EQ-007': 'Center tripod stand on a heat-resistant surface with wire gauze on top. Let iron stand cool before returning.',
+        'LG-EQ-008': 'Lift bell jar carefully with both hands using the top knob and lower rim; ensure clean seal on base plate.',
+        'LG-EQ-009': 'Button laboratory gown from collar to hem before working and fold neatly inside 1st - 3rd Section after use.',
+        'LG-EQ-010': 'Wear PPE glasses, facemask, and gloves before handling chemicals. Stir gently with glass rod without hitting glassware.',
+        'LG-EQ-011': 'Carry microscope with two hands (arm & base). Start on 4x objective lens and clean optics with lens paper only.',
       };
-
-      const UPPER_COMPARTMENTS = [
-        { code: 'Comp A1', label: 'Microscopes' },
-        { code: 'Comp A2', label: 'Glassware' },
-        { code: 'Comp A3', label: 'pH Meters' },
-        { code: 'Comp A4', label: 'Optical Slides' },
-        { code: 'Comp A5', label: 'Graduated Cyl' },
-      ];
-
-      const LOWER_COMPARTMENTS = [
-        { code: 'Comp B1', label: 'Bunsen Burners' },
-        { code: 'Comp B2', label: 'Balances' },
-        { code: 'Comp B3', label: 'Centrifuges' },
-        { code: 'Comp B4', label: 'Calorimeters' },
-        { code: 'Comp B5', label: 'Dissecting Kits' },
-      ];
 
       let equipmentList = [];
       let transactionsList = [];
       let safetyStatus = { level: 'SAFE', message: '' };
       let selectedCategory = 'All';
+      let searchQuery = '';
       let basket = [];
       let currentMode = 'borrow';
       let activeReturnTxId = null;
@@ -663,6 +944,64 @@
       let basketWindowState = 'collapse'; // 'collapse' | 'normal' | 'maximize'
       let simulatorEnabled = false;
 
+      // 45-Second Inactivity Auto-Reset
+      const IDLE_LIMIT_SECONDS = 45;
+      let idleSecondsLeft = IDLE_LIMIT_SECONDS;
+      let idleTimerInterval = null;
+
+      function resetIdleTimer() {
+        idleSecondsLeft = IDLE_LIMIT_SECONDS;
+        updateIdleBadge();
+      }
+
+      function updateIdleBadge() {
+        const badge = document.getElementById('idle-timer-badge');
+        if (badge) badge.textContent = `${idleSecondsLeft}s`;
+      }
+
+      function startIdleTracker() {
+        if (idleTimerInterval) clearInterval(idleTimerInterval);
+        idleTimerInterval = setInterval(() => {
+          // Only countdown if user has moved past the Attract Screen
+          const attractEl = document.getElementById('attract-screen');
+          if (attractEl && !attractEl.classList.contains('hidden')) {
+            idleSecondsLeft = IDLE_LIMIT_SECONDS;
+            updateIdleBadge();
+            return;
+          }
+
+          idleSecondsLeft--;
+          updateIdleBadge();
+
+          if (idleSecondsLeft <= 0) {
+            goToAttractScreen();
+          }
+        }, 1000);
+
+        ['pointerdown', 'touchstart', 'click', 'keydown', 'mousemove'].forEach((evt) => {
+          window.addEventListener(evt, resetIdleTimer, { passive: true });
+        });
+      }
+
+      // GCash-Style Privacy Masking for Public Kiosk Display
+      function maskStudentName(fullName) {
+        if (!fullName) return 'Student';
+        const parts = fullName.trim().split(/\s+/);
+        return parts
+          .map((p) => {
+            if (p.length <= 2) return p;
+            const middle = '*'.repeat(Math.max(1, p.length - 2));
+            return p[0] + middle + p[p.length - 1];
+          })
+          .join(' ');
+      }
+
+      function maskStudentId(id) {
+        if (!id) return '********';
+        if (id.length <= 4) return '****';
+        return '*'.repeat(id.length - 4) + id.slice(-4);
+      }
+
       function getHowToUseText(item) {
         if (HOW_TO_USE_GUIDES[item.qr_code]) {
           return HOW_TO_USE_GUIDES[item.qr_code];
@@ -671,6 +1010,58 @@
           return item.description;
         }
         return 'Handle carefully on a level laboratory bench while wearing required PPE.';
+      }
+
+      // Navigation: Screen 0 (Attract) <-> Screen 1 (Welcome) <-> Screen 2 (Catalog)
+      function goToAttractScreen() {
+        const attract = document.getElementById('attract-screen');
+        attract.classList.remove('hidden');
+        attract.classList.remove('screen-enter');
+        void attract.offsetWidth;
+        attract.classList.add('screen-enter');
+
+        document.getElementById('welcome-screen').classList.add('hidden');
+        document.getElementById('kiosk-catalog-screen').classList.add('hidden');
+        document.getElementById('kiosk-top-bar').classList.add('hidden');
+        document.getElementById('top-mode-bar').classList.add('hidden');
+        closeQrModal();
+        closeReturnModal();
+        toggleBasketPopup('collapse');
+        toggleTouchKeyboard(false);
+        clearKeyboardInput();
+        resetIdleTimer();
+      }
+
+      function goToWelcomeScreen() {
+        document.getElementById('attract-screen').classList.add('hidden');
+        const welcome = document.getElementById('welcome-screen');
+        welcome.classList.remove('hidden');
+        welcome.classList.remove('screen-enter');
+        void welcome.offsetWidth;
+        welcome.classList.add('screen-enter');
+
+        document.getElementById('kiosk-catalog-screen').classList.add('hidden');
+        document.getElementById('kiosk-top-bar').classList.remove('hidden');
+        document.getElementById('top-mode-bar').classList.add('hidden');
+        closeQrModal();
+        closeReturnModal();
+        toggleTouchKeyboard(false);
+        resetIdleTimer();
+      }
+
+      function openKioskFlow(mode) {
+        document.getElementById('attract-screen').classList.add('hidden');
+        document.getElementById('welcome-screen').classList.add('hidden');
+        const catalog = document.getElementById('kiosk-catalog-screen');
+        catalog.classList.remove('hidden');
+        catalog.classList.remove('screen-enter');
+        void catalog.offsetWidth;
+        catalog.classList.add('screen-enter');
+
+        document.getElementById('kiosk-top-bar').classList.remove('hidden');
+        document.getElementById('top-mode-bar').classList.remove('hidden');
+        switchKioskMode(mode);
+        resetIdleTimer();
       }
 
       // Single Toggle Switch: Simulate 7" LCD (800x480)
@@ -711,6 +1102,7 @@
       }
       window.addEventListener('resize', checkNativeRpiDimensions);
 
+      // Category Sidebar Toggle
       function toggleCategorySidebar(forceState) {
         if (typeof forceState === 'boolean') {
           isCategorySidebarOpen = forceState;
@@ -722,12 +1114,66 @@
         if (isCategorySidebarOpen) {
           sidebar.classList.remove('hidden');
           icon.textContent = '✕';
+          toggleTouchKeyboard(false);
         } else {
           sidebar.classList.add('hidden');
           icon.textContent = '☰';
         }
       }
 
+      // On-Screen Virtual Touch Keyboard & Search
+      function toggleTouchKeyboard(show) {
+        const kb = document.getElementById('virtual-keyboard-drawer');
+        if (show) {
+          kb.classList.remove('hidden');
+          toggleCategorySidebar(false);
+        } else {
+          kb.classList.add('hidden');
+        }
+      }
+
+      function pressKey(char) {
+        searchQuery += char;
+        syncSearchUI();
+      }
+
+      function pressBackspace() {
+        searchQuery = searchQuery.slice(0, -1);
+        syncSearchUI();
+      }
+
+      function pressSpace() {
+        searchQuery += ' ';
+        syncSearchUI();
+      }
+
+      function clearKeyboardInput() {
+        searchQuery = '';
+        syncSearchUI();
+      }
+
+      function syncSearchUI() {
+        const input = document.getElementById('vk-display-input');
+        const label = document.getElementById('search-bar-label');
+        const pill = document.getElementById('search-active-pill');
+
+        if (input) input.value = searchQuery;
+
+        if (searchQuery.trim().length > 0) {
+          if (label) label.textContent = `"${searchQuery}"`;
+          if (pill) {
+            pill.classList.remove('hidden');
+            pill.textContent = 'Active';
+          }
+        } else {
+          if (label) label.textContent = 'Search items...';
+          if (pill) pill.classList.add('hidden');
+        }
+
+        renderEquipmentGrid();
+      }
+
+      // Basket Controls
       function toggleBasketFromTopBar() {
         if (basketWindowState === 'collapse') {
           toggleBasketPopup('normal');
@@ -750,12 +1196,14 @@
             'absolute bottom-2 right-2 z-40 w-80 sm:w-96 bg-white border-2 border-slate-300 rounded-2xl shadow-2xl flex flex-col overflow-hidden transition-all';
           if (maxBtn) maxBtn.textContent = '⛶ Maximize';
           if (itemsList) itemsList.style.maxHeight = '160px';
+          toggleTouchKeyboard(false);
         } else if (targetState === 'maximize') {
           popupWin.classList.remove('hidden');
           popupWin.className =
             'absolute inset-2 z-40 bg-white border-2 border-slate-300 rounded-2xl shadow-2xl flex flex-col overflow-hidden transition-all';
           if (maxBtn) maxBtn.textContent = '❐ Restore';
           if (itemsList) itemsList.style.maxHeight = '260px';
+          toggleTouchKeyboard(false);
         }
       }
 
@@ -765,31 +1213,6 @@
         } else {
           toggleBasketPopup('maximize');
         }
-      }
-
-      function renderPrototypeDoors() {
-        const selectedComps = new Set(basket.map((b) => (b.storage_compartment || '').trim()));
-        const buildDoors = (list) =>
-          list
-            .map((c) => {
-              const active = selectedComps.has(c.code);
-              return `
-                <div class="px-2.5 py-1.5 rounded-lg border flex items-center justify-between text-[10px] font-mono transition-all ${
-                  active
-                    ? 'bg-amber-950/70 border-[#F5A623] text-amber-300 shadow-[0_0_12px_rgba(245,166,35,0.4)] font-bold'
-                    : 'bg-slate-900/90 border-slate-800 text-slate-400'
-                }">
-                  <span>${c.code}</span>
-                  <span>${active ? '💡' : '·'}</span>
-                </div>
-              `;
-            })
-            .join('');
-
-        const u = document.getElementById('proto-upper-doors');
-        const l = document.getElementById('proto-lower-doors');
-        if (u) u.innerHTML = buildDoors(UPPER_COMPARTMENTS);
-        if (l) l.innerHTML = buildDoors(LOWER_COMPARTMENTS);
       }
 
       async function fetchKioskState() {
@@ -805,23 +1228,9 @@
           renderEquipmentGrid();
           renderBasket();
           renderReturnList();
-          renderPrototypeDoors();
         } catch (err) {
           console.error(err);
         }
-      }
-
-      function goToWelcomeScreen() {
-        document.getElementById('welcome-screen').classList.remove('hidden');
-        document.getElementById('kiosk-catalog-screen').classList.add('hidden');
-        document.getElementById('top-mode-bar').classList.add('hidden');
-      }
-
-      function openKioskFlow(mode) {
-        document.getElementById('welcome-screen').classList.add('hidden');
-        document.getElementById('kiosk-catalog-screen').classList.remove('hidden');
-        document.getElementById('top-mode-bar').classList.remove('hidden');
-        switchKioskMode(mode);
       }
 
       function updateHeaderAndMetrics() {
@@ -831,34 +1240,40 @@
         document.getElementById('welcome-return-count').textContent = activeBorrows.length;
         document.getElementById('top-return-count').textContent = activeBorrows.length;
 
-        const lockout = document.getElementById('unsafe-lockout-alert');
-        const leftSvg = document.getElementById('left-hex-svg');
-        const rightSvg = document.getElementById('right-hex-svg');
+        const ledPill = document.getElementById('kiosk-led-pill');
+        const ledDot = document.getElementById('kiosk-led-dot');
+        const ledText = document.getElementById('kiosk-led-text');
+        const banner = document.getElementById('safety-status-banner');
+        const bannerIcon = document.getElementById('safety-banner-icon');
+        const bannerMsg = document.getElementById('safety-banner-msg');
 
         if (safetyStatus.level === 'UNSAFE') {
-          lockout.classList.remove('hidden');
-          if (leftSvg && rightSvg) {
-            leftSvg.style.color = '#EF4444';
-            rightSvg.style.color = '#EF4444';
-            leftSvg.style.filter = 'drop-shadow(0 0 12px rgba(239,68,68,0.9))';
-            rightSvg.style.filter = 'drop-shadow(0 0 12px rgba(239,68,68,0.9))';
+          if (ledPill) ledPill.className = 'flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-red-500/25 border border-red-400/70 text-red-100 text-[10px] sm:text-xs font-mono font-bold tracking-wide shrink-0 transition-all';
+          if (ledDot) ledDot.className = 'w-2.5 h-2.5 rounded-full bg-red-400 animate-pulse shadow-[0_0_8px_rgba(248,113,113,0.95)]';
+          if (ledText) ledText.textContent = 'LED RED · UNSAFE';
+
+          if (banner) {
+            banner.className = 'mb-2 p-2.5 bg-red-50 border border-red-300 rounded-xl text-red-900 text-xs shrink-0 flex items-center justify-between gap-2';
+            banner.classList.remove('hidden');
           }
+          if (bannerIcon) bannerIcon.textContent = '▲ LED RED · UNSAFE';
+          if (bannerMsg) bannerMsg.textContent = safetyStatus.message || 'Equipment checkout paused until cleared by Laboratory Personnel.';
         } else if (safetyStatus.level === 'CAUTION') {
-          lockout.classList.add('hidden');
-          if (leftSvg && rightSvg) {
-            leftSvg.style.color = '#F59E0B';
-            rightSvg.style.color = '#F59E0B';
-            leftSvg.style.filter = 'drop-shadow(0 0 12px rgba(245,158,11,0.85))';
-            rightSvg.style.filter = 'drop-shadow(0 0 12px rgba(245,158,11,0.85))';
+          if (ledPill) ledPill.className = 'flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-amber-500/25 border border-amber-300/70 text-amber-100 text-[10px] sm:text-xs font-mono font-bold tracking-wide shrink-0 transition-all';
+          if (ledDot) ledDot.className = 'w-2.5 h-2.5 rounded-full bg-amber-400 animate-pulse shadow-[0_0_8px_rgba(251,191,36,0.95)]';
+          if (ledText) ledText.textContent = 'LED YELLOW · CAUTION';
+
+          if (banner) {
+            banner.className = 'mb-2 p-2.5 bg-amber-50 border border-amber-300 rounded-xl text-amber-950 text-xs shrink-0 flex items-center justify-between gap-2';
+            banner.classList.remove('hidden');
           }
+          if (bannerIcon) bannerIcon.textContent = '▲ LED YELLOW · CAUTION';
+          if (bannerMsg) bannerMsg.textContent = safetyStatus.message || 'Caution alert active. Inspect reported items or wear full PPE.';
         } else {
-          lockout.classList.add('hidden');
-          if (leftSvg && rightSvg) {
-            leftSvg.style.color = '#22C55E';
-            rightSvg.style.color = '#22C55E';
-            leftSvg.style.filter = 'drop-shadow(0 0 12px rgba(34,197,94,0.85))';
-            rightSvg.style.filter = 'drop-shadow(0 0 12px rgba(34,197,94,0.85))';
-          }
+          if (ledPill) ledPill.className = 'flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-500/20 border border-emerald-400/50 text-emerald-100 text-[10px] sm:text-xs font-mono font-bold tracking-wide shrink-0 transition-all';
+          if (ledDot) ledDot.className = 'w-2.5 h-2.5 rounded-full bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.9)]';
+          if (ledText) ledText.textContent = 'LED GREEN · SAFE';
+          if (banner) banner.classList.add('hidden');
         }
       }
 
@@ -873,16 +1288,16 @@
           borrowSec.classList.remove('hidden');
           returnSec.classList.add('hidden');
           topBorrow.className =
-            'px-4 py-2 rounded-xl font-heading font-extrabold text-xs tracking-wide transition-all cursor-pointer flex items-center gap-1.5 bg-[#F5A623] text-slate-950';
+            'px-3.5 py-2 rounded-xl font-heading font-extrabold text-xs tracking-wide transition-all cursor-pointer flex items-center gap-1.5 bg-[#F5A623] text-slate-950';
           topReturn.className =
-            'px-4 py-2 rounded-xl font-heading font-extrabold text-xs tracking-wide transition-all cursor-pointer flex items-center gap-1.5 bg-white/15 text-white hover:bg-white/25';
+            'px-3.5 py-2 rounded-xl font-heading font-extrabold text-xs tracking-wide transition-all cursor-pointer flex items-center gap-1.5 bg-white/15 text-white hover:bg-white/25';
         } else {
           borrowSec.classList.add('hidden');
           returnSec.classList.remove('hidden');
           topReturn.className =
-            'px-4 py-2 rounded-xl font-heading font-extrabold text-xs tracking-wide transition-all cursor-pointer flex items-center gap-1.5 bg-[#F5A623] text-slate-950';
+            'px-3.5 py-2 rounded-xl font-heading font-extrabold text-xs tracking-wide transition-all cursor-pointer flex items-center gap-1.5 bg-[#F5A623] text-slate-950';
           topBorrow.className =
-            'px-4 py-2 rounded-xl font-heading font-extrabold text-xs tracking-wide transition-all cursor-pointer flex items-center gap-1.5 bg-white/15 text-white hover:bg-white/25';
+            'px-3.5 py-2 rounded-xl font-heading font-extrabold text-xs tracking-wide transition-all cursor-pointer flex items-center gap-1.5 bg-white/15 text-white hover:bg-white/25';
           renderReturnList();
         }
       }
@@ -914,10 +1329,40 @@
         return found ? found.quantity : 0;
       }
 
+      function animateBasketAddition() {
+        const basketBtn = document.getElementById('kiosk-basket-btn');
+        const basketPill = document.getElementById('top-basket-count-pill');
+        [basketBtn, basketPill].forEach((el) => {
+          if (el) {
+            el.classList.remove('animate-basket-bump');
+            void el.offsetWidth;
+            el.classList.add('animate-basket-bump');
+            setTimeout(() => el.classList.remove('animate-basket-bump'), 450);
+          }
+        });
+
+        // Spawn a temporary floating "+1" micro-pill near the basket button
+        if (basketBtn) {
+          const rect = basketBtn.getBoundingClientRect();
+          const badge = document.createElement('div');
+          badge.className =
+            'fixed z-50 pointer-events-none px-2 py-0.5 rounded-full bg-emerald-500 text-white font-mono text-[10px] font-extrabold shadow-md animate-float-add';
+          badge.textContent = '+1 Added';
+          badge.style.left = `${Math.max(10, rect.left + rect.width / 2 - 25)}px`;
+          badge.style.top = `${Math.max(10, rect.top - 14)}px`;
+          document.body.appendChild(badge);
+          setTimeout(() => badge.remove(), 800);
+        }
+      }
+
       function setItemQty(eqId, nextQty) {
         const eq = equipmentList.find((e) => e.id === eqId);
         if (!eq) return;
+        const prevQty = getBasketQty(eqId);
         const clamped = Math.max(0, Math.min(eq.available_qty, nextQty));
+        if (clamped > prevQty) {
+          animateBasketAddition();
+        }
         if (clamped === 0) {
           basket = basket.filter((b) => b.equipment_id !== eqId);
         } else {
@@ -942,18 +1387,31 @@
         }
         renderEquipmentGrid();
         renderBasket();
-        renderPrototypeDoors();
       }
 
       function renderEquipmentGrid() {
+        const query = searchQuery.trim().toLowerCase();
+
         const filtered = equipmentList.filter((item) => {
           if (selectedCategory !== 'All' && item.category !== selectedCategory) return false;
+          if (query) {
+            const matchName = (item.name || '').toLowerCase().includes(query);
+            const matchCat = (item.category || '').toLowerCase().includes(query);
+            const matchComp = (item.storage_compartment || '').toLowerCase().includes(query);
+            if (!matchName && !matchCat && !matchComp) return false;
+          }
           return true;
         });
 
         const grid = document.getElementById('equipment-grid');
         if (filtered.length === 0) {
-          grid.innerHTML = `<div class="col-span-full bg-white border border-slate-200 rounded-2xl p-8 text-center text-xs text-slate-500">No laboratory equipment in this category.</div>`;
+          grid.innerHTML = `
+            <div class="col-span-full bg-white border border-slate-200 rounded-2xl p-8 text-center text-xs text-slate-500 space-y-2">
+              <p class="font-bold text-slate-700">No laboratory equipment found</p>
+              <p>${query ? `No results matching "${query}".` : 'No items in this category.'}</p>
+              ${query ? `<button type="button" onclick="clearKeyboardInput()" class="px-3 py-1 bg-slate-100 hover:bg-slate-200 text-[#003087] font-bold rounded-lg text-[11px]">Clear Search</button>` : ''}
+            </div>
+          `;
           return;
         }
 
@@ -994,7 +1452,7 @@
                   </div>
                 </div>
 
-                <!-- Minimal Touchscreen Action Footer -->
+                <!-- Touchscreen Action Footer -->
                 <div class="eq-card-footer p-2.5 bg-white border-t border-slate-100">
                   ${
                     qty === 0
@@ -1062,7 +1520,6 @@
         basket = [];
         renderEquipmentGrid();
         renderBasket();
-        renderPrototypeDoors();
         toggleBasketPopup('collapse');
       }
 
@@ -1088,7 +1545,6 @@
           document.getElementById('qr-modal-token').textContent = `Token: ${sess.session_token}`;
           document.getElementById('qr-redirect-link').href = `/student/checkout/${sess.session_token}`;
 
-          // Populate How to Use Borrowed Material guide in Checkout Modal
           document.getElementById('qr-modal-usage-list').innerHTML = basket
             .map(
               (item) => `
@@ -1111,6 +1567,58 @@
         document.getElementById('qr-checkout-modal').classList.add('hidden');
       }
 
+      let activeRevealedTxId = null;
+
+      function revealStudentName(txId) {
+        const tx = transactionsList.find((t) => t.id === txId);
+        if (!tx) return;
+        activeRevealedTxId = txId;
+        const nameEl = document.getElementById(`tx-name-${txId}`);
+        const idEl = document.getElementById(`tx-id-${txId}`);
+        const btn = document.getElementById(`tx-eye-btn-${txId}`);
+        if (nameEl) {
+          nameEl.textContent = tx.student_name;
+          nameEl.classList.add('text-[#003087]');
+        }
+        if (idEl) {
+          idEl.textContent = tx.student_id_lrn;
+          idEl.classList.add('text-[#003087]');
+        }
+        if (btn) {
+          btn.classList.add('text-[#003087]', 'bg-blue-100', 'scale-110');
+        }
+      }
+
+      function hideStudentName(txId) {
+        const tx = transactionsList.find((t) => t.id === txId);
+        if (!tx) return;
+        activeRevealedTxId = null;
+        const nameEl = document.getElementById(`tx-name-${txId}`);
+        const idEl = document.getElementById(`tx-id-${txId}`);
+        const btn = document.getElementById(`tx-eye-btn-${txId}`);
+        if (nameEl) {
+          nameEl.textContent = maskStudentName(tx.student_name);
+          nameEl.classList.remove('text-[#003087]');
+        }
+        if (idEl) {
+          idEl.textContent = maskStudentId(tx.student_id_lrn);
+          idEl.classList.remove('text-[#003087]');
+        }
+        if (btn) {
+          btn.classList.remove('text-[#003087]', 'bg-blue-100', 'scale-110');
+        }
+      }
+
+      function hideAllRevealedNames() {
+        if (activeRevealedTxId !== null) {
+          hideStudentName(activeRevealedTxId);
+        }
+      }
+
+      window.addEventListener('pointerup', hideAllRevealedNames);
+      window.addEventListener('pointercancel', hideAllRevealedNames);
+
+      // Render Return Section with GCash-Style Privacy Masking + Hold-to-Reveal Eye Toggle
       function renderReturnList() {
         const active = transactionsList.filter((t) => t.status !== 'Returned / Logged Out');
 
@@ -1123,14 +1631,40 @@
         container.innerHTML = active
           .map(
             (tx) => `
-            <div class="bg-white border border-slate-200 rounded-2xl p-3.5 flex flex-col justify-between gap-2.5">
+            <div class="bg-white border-2 border-slate-200 rounded-2xl p-3.5 flex flex-col justify-between gap-2.5 hover:border-slate-300 transition-all">
               <div>
                 <div class="flex items-start justify-between gap-2">
-                  <div>
-                    <h3 class="text-sm font-extrabold text-slate-900 font-heading">${tx.student_name}</h3>
-                    <p class="text-[10px] font-mono text-slate-500 mt-0.5">${tx.grade_section}</p>
+                  <div class="min-w-0">
+                    <!-- Masked Student Name with Hold-to-Reveal Eye Toggle -->
+                    <div class="flex items-center gap-1.5 min-w-0">
+                      <h3 id="tx-name-${tx.id}" class="text-sm font-extrabold text-slate-900 font-heading tracking-wide truncate transition-colors">
+                        ${maskStudentName(tx.student_name)}
+                      </h3>
+                      <button
+                        type="button"
+                        id="tx-eye-btn-${tx.id}"
+                        title="Hold to reveal full name"
+                        aria-label="Hold to reveal full name"
+                        onpointerdown="revealStudentName(${tx.id})"
+                        onpointerup="hideStudentName(${tx.id})"
+                        onpointerleave="hideStudentName(${tx.id})"
+                        onpointercancel="hideStudentName(${tx.id})"
+                        class="p-1 rounded-lg text-slate-400 hover:text-[#003087] hover:bg-slate-100 active:text-[#003087] active:bg-blue-100 transition-all cursor-pointer select-none shrink-0"
+                      >
+                        <svg class="w-4 h-4 pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                        </svg>
+                      </button>
+                    </div>
+                    <!-- Masked Student ID / LRN -->
+                    <p class="text-[10px] font-mono text-slate-500 mt-0.5 truncate">
+                      ID: <span id="tx-id-${tx.id}" class="font-semibold text-slate-700 transition-colors">${maskStudentId(tx.student_id_lrn)}</span> · ${tx.grade_section}
+                    </p>
                   </div>
-                  <span class="text-[10px] font-mono font-bold text-amber-700">Active</span>
+                  <span class="text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-emerald-50 text-[#16A34A] border border-emerald-200 shrink-0">
+                    Active
+                  </span>
                 </div>
                 <div class="mt-2 pt-2 border-t border-slate-100 space-y-0.5 text-[11px] font-mono text-slate-700">
                   ${(tx.items || []).map((i) => `<div>• ${i.quantity}× ${i.name} (${i.storage_compartment})</div>`).join('')}
@@ -1138,7 +1672,7 @@
               </div>
               <div class="pt-2 border-t border-slate-100 flex items-center justify-between gap-2">
                 <span class="text-[10px] font-mono text-slate-400">${new Date(tx.time_in).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
-                <button type="button" onclick="openReturnModal(${tx.id})" class="px-3.5 py-2 text-[11px] font-heading font-bold text-white bg-[#16A34A] active:bg-emerald-700 rounded-xl cursor-pointer">Return</button>
+                <button type="button" onclick="openReturnModal(${tx.id})" class="px-3.5 py-2 text-[11px] font-heading font-bold text-white bg-[#16A34A] active:bg-emerald-700 rounded-xl cursor-pointer">Return Equipment</button>
               </div>
             </div>
           `
@@ -1150,14 +1684,37 @@
         selectedReturnCondition = cond;
         ['Good', 'Damaged', 'Missing'].forEach((c) => {
           const btn = document.getElementById(`cond-btn-${c}`);
+          if (!btn) return;
           if (c === cond) {
-            btn.className =
-              'py-2.5 px-2 text-xs font-heading font-bold rounded-xl border-2 border-[#003087] bg-[#003087] text-white cursor-pointer';
+            if (cond === 'Damaged') {
+              btn.className =
+                'py-2.5 px-2 text-xs font-heading font-bold rounded-xl border-2 border-amber-600 bg-amber-500 text-white cursor-pointer';
+            } else if (cond === 'Missing') {
+              btn.className =
+                'py-2.5 px-2 text-xs font-heading font-bold rounded-xl border-2 border-[#C8102E] bg-[#C8102E] text-white cursor-pointer';
+            } else {
+              btn.className =
+                'py-2.5 px-2 text-xs font-heading font-bold rounded-xl border-2 border-[#003087] bg-[#003087] text-white cursor-pointer';
+            }
           } else {
             btn.className =
               'py-2.5 px-2 text-xs font-heading font-bold rounded-xl border-2 border-slate-200 bg-white text-slate-700 cursor-pointer';
           }
         });
+
+        const alertBox = document.getElementById('return-condition-alert');
+        if (alertBox) {
+          if (cond === 'Damaged') {
+            alertBox.className = 'mt-2 p-2.5 rounded-xl border border-amber-300 bg-amber-50 text-amber-950 text-[11px] font-medium leading-snug';
+            alertBox.textContent = '⚠ Returning as Damaged will automatically switch the Station LED Safety Status to YELLOW (CAUTION) for inspection.';
+          } else if (cond === 'Missing') {
+            alertBox.className = 'mt-2 p-2.5 rounded-xl border border-red-300 bg-red-50 text-red-900 text-[11px] font-medium leading-snug';
+            alertBox.textContent = '⚠ Returning as Missing will keep stock deducted and switch the Station LED Safety Status to YELLOW (CAUTION) for Lab Coordinator review.';
+          } else {
+            alertBox.className = 'hidden mt-2 p-2.5 rounded-xl border text-[11px] font-medium leading-snug';
+            alertBox.textContent = '';
+          }
+        }
       }
 
       function openReturnModal(txId) {
@@ -1165,7 +1722,7 @@
         if (!tx) return;
         activeReturnTxId = tx.id;
         selectReturnCondition('Good');
-        document.getElementById('return-modal-title').textContent = tx.student_name;
+        document.getElementById('return-modal-title').textContent = maskStudentName(tx.student_name);
         document.getElementById('return-modal-items').innerHTML = (tx.items || [])
           .map((i) => `<div>• ${i.quantity}× ${i.name} (${i.storage_compartment})</div>`)
           .join('');
@@ -1180,26 +1737,66 @@
       async function submitReturnForm(e) {
         e.preventDefault();
         if (!activeReturnTxId) return;
+        const cond = selectedReturnCondition;
         const res = await fetch('/api/kiosk/return', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             transaction_id: activeReturnTxId,
-            return_condition: selectedReturnCondition,
-            return_notes: `Returned (${selectedReturnCondition})`,
+            return_condition: cond,
+            return_notes: `Returned (${cond})`,
           }),
         });
         if (res.ok) {
+          const data = await res.json();
+          if (data.safety_status) {
+            safetyStatus = data.safety_status;
+          }
           closeReturnModal();
           const banner = document.getElementById('return-success-banner');
-          banner.textContent = 'Equipment returned successfully.';
+          if (cond === 'Damaged' || cond === 'Missing') {
+            banner.className = 'p-3 bg-amber-50 border border-amber-300 rounded-xl text-xs text-amber-950 font-semibold';
+            banner.textContent = `Return logged (${cond}). Station LED Safety Status updated to ${safetyStatus.level === 'UNSAFE' ? 'RED (UNSAFE)' : 'YELLOW (CAUTION)'} — Lab Coordinator notified.`;
+          } else {
+            banner.className = 'p-3 bg-emerald-50 border border-emerald-200 rounded-xl text-xs text-emerald-900 font-semibold';
+            banner.textContent = 'Equipment returned successfully in Good condition. Transaction completed.';
+          }
           banner.classList.remove('hidden');
+          updateHeaderAndMetrics();
           fetchKioskState();
+        }
+      }
+
+      function connectGlobalKioskSocket() {
+        try {
+          const proto = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+          const ws = new WebSocket(`${proto}//${window.location.host}/ws/kiosk`);
+          ws.onmessage = (evt) => {
+            try {
+              const payload = JSON.parse(evt.data);
+              if (payload.safety_status) {
+                safetyStatus = payload.safety_status;
+                updateHeaderAndMetrics();
+              }
+              if (payload.event === 'data_updated') {
+                fetchKioskState();
+              }
+            } catch {
+              // ignore malformed messages
+            }
+          };
+          ws.onclose = () => {
+            setTimeout(connectGlobalKioskSocket, 4000);
+          };
+        } catch {
+          // fallback if WebSocket unavailable
         }
       }
 
       checkNativeRpiDimensions();
       fetchKioskState();
+      connectGlobalKioskSocket();
+      startIdleTracker();
     </script>
 
     <!-- Discreet Prototype Route Helper -->

@@ -38,10 +38,9 @@ interface KioskTerminalProps {
 
 const CATEGORIES: ('All' | EquipmentCategory)[] = [
   'All',
-  'Optical & Microscopy',
   'Glassware & Measuring',
   'Heating & Thermal',
-  'Balances & Analytical',
+  'Optical & Microscopy',
   'Safety & PPE',
 ];
 
@@ -294,7 +293,7 @@ export const KioskTerminal: React.FC<KioskTerminalProps> = ({
         </div>
       </div>
 
-      {/* Unsafe LED Lockout Banner if Red */}
+      {/* LED Safety Status Banner for Red UNSAFE or Yellow CAUTION */}
       {safetyStatus.level === 'UNSAFE' && kioskMode === 'borrow' && (
         <div className="mt-6 p-4 bg-red-50 border border-red-200 rounded-xl flex items-start gap-3 text-red-900">
           <ShieldAlert className="w-5 h-5 text-red-600 shrink-0 mt-0.5" />
@@ -304,6 +303,19 @@ export const KioskTerminal: React.FC<KioskTerminalProps> = ({
             </p>
             <p className="text-red-700 mt-0.5">
               {safetyStatus.message} Please coordinate with Laboratory Personnel or switch to the Return tab to return borrowed items.
+            </p>
+          </div>
+        </div>
+      )}
+      {safetyStatus.level === 'CAUTION' && (
+        <div className="mt-6 p-4 bg-amber-50 border border-amber-300 rounded-xl flex items-start gap-3 text-amber-950">
+          <ShieldAlert className="w-5 h-5 text-amber-600 shrink-0 mt-0.5" />
+          <div className="text-sm">
+            <p className="font-bold">
+              LED Safety Status is YELLOW (CAUTION) — PPE & Inspection Advisory Active
+            </p>
+            <p className="text-amber-800 mt-0.5">
+              {safetyStatus.message}
             </p>
           </div>
         </div>
@@ -901,7 +913,9 @@ export const KioskTerminal: React.FC<KioskTerminalProps> = ({
                     onClick={() => setReturnCondition(cond)}
                     className={`py-2 px-3 text-xs font-semibold rounded-lg border cursor-pointer ${
                       returnCondition === cond
-                        ? 'bg-[#003087] text-white border-[#003087]'
+                        ? cond === 'Good'
+                          ? 'bg-[#003087] text-white border-[#003087]'
+                          : 'bg-amber-600 text-white border-amber-600'
                         : 'bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100'
                     }`}
                   >
@@ -909,6 +923,13 @@ export const KioskTerminal: React.FC<KioskTerminalProps> = ({
                   </button>
                 ))}
               </div>
+              {returnCondition !== 'Good' && (
+                <div className="mt-2.5 p-2.5 bg-amber-50 border border-amber-300 rounded-lg text-[11px] text-amber-900">
+                  <span className="font-bold">LED Safety Status Notice:</span> Reporting a{' '}
+                  <span className="font-bold uppercase">{returnCondition}</span> item will automatically switch the Station LED Safety Status to{' '}
+                  <span className="font-bold">YELLOW (CAUTION)</span> and alert the Laboratory Coordinator.
+                </div>
+              )}
             </div>
 
             <div>

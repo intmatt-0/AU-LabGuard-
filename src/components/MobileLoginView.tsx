@@ -31,17 +31,6 @@ interface MobileLoginViewProps {
   onNavigateToAdmin: () => void;
 }
 
-const GRADE_SECTIONS = [
-  'Grade 12 - STEM 1',
-  'Grade 12 - STEM 2',
-  'Grade 11 - STEM 1',
-  'Grade 11 - STEM 2',
-  'Grade 12 - ABM 1',
-  'Grade 12 - HUMSS 1',
-  'Grade 12 - GAS 1',
-  'AU-JRC Science Faculty',
-];
-
 export const MobileLoginView: React.FC<MobileLoginViewProps> = ({
   sessionToken,
   activeSession,
@@ -58,18 +47,48 @@ export const MobileLoginView: React.FC<MobileLoginViewProps> = ({
   // Student Information Form fields
   const [studentName, setStudentName] = useState('');
   const [studentIdLrn, setStudentIdLrn] = useState('');
-  const [gradeSection, setGradeSection] = useState('Grade 12 - STEM 1');
+  const [gradeSection, setGradeSection] = useState('STEM');
   const [schoolEmail, setSchoolEmail] = useState('');
   const [subjectActivity, setSubjectActivity] = useState(
     'General Chemistry 2 — Laboratory Experiment'
   );
+  const formatLocalDateStr = (d: Date) => {
+    const year = d.getFullYear();
+    const month = String(d.getMonth() + 1).padStart(2, '0');
+    const day = String(d.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  };
+
   const [teacherName, setTeacherName] = useState('Ms. Lara Marie Agustin Puertollano');
   const [expectedHours, setExpectedHours] = useState<number>(2);
+  const [customReturnDate, setCustomReturnDate] = useState(() => {
+    const d = new Date(Date.now() + 2 * 3600 * 1000);
+    return formatLocalDateStr(d);
+  });
+  const [customReturnTime, setCustomReturnTime] = useState(() => {
+    const d = new Date(Date.now() + 2 * 3600 * 1000);
+    return `${String(d.getHours()).padStart(2, '0')}:${String(d.getMinutes()).padStart(2, '0')}`;
+  });
   const [checkedPrerequisites, setCheckedPrerequisites] = useState<boolean>(true);
 
   const [submitting, setSubmitting] = useState(false);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [loggedRecord, setLoggedRecord] = useState<StudentTransactionLog | null>(null);
+
+  const handleCustomDateTimeInput = (newDate: string, newTime: string) => {
+    setCustomReturnDate(newDate);
+    setCustomReturnTime(newTime);
+    if (!newDate || !newTime) return;
+    const target = new Date(`${newDate}T${newTime}`);
+    const diffMs = target.getTime() - Date.now();
+    if (diffMs > 0) {
+      const calc = Math.max(0.5, Math.round((diffMs / 3600000) * 10) / 10);
+      setExpectedHours(calc);
+      setErrorMsg(null);
+    } else {
+      setErrorMsg('Please select a future date and time for returning apparatus.');
+    }
+  };
 
   // Fetch session from backend if opened via QR URL /student/checkout/:token
   useEffect(() => {
@@ -133,10 +152,19 @@ export const MobileLoginView: React.FC<MobileLoginViewProps> = ({
     return Array.from(reqs);
   }, [effectiveBasket]);
 
+  const normalizeStrand = (val: string) => {
+    if (!val) return 'STEM';
+    const upper = val.toUpperCase();
+    if (upper.includes('HUMSS')) return 'HUMSS';
+    if (upper.includes('ABM')) return 'ABM';
+    if (upper.includes('FACULTY') || upper.includes('TEACHER') || upper.includes('STAFF') || upper.includes('ADVISER')) return 'FACULTY';
+    return 'STEM';
+  };
+
   const handleApplyPreset = (preset: LabStudentPreset) => {
     setStudentName(preset.student_name);
     setStudentIdLrn(preset.student_id_lrn);
-    setGradeSection(preset.grade_section);
+    setGradeSection(normalizeStrand(preset.grade_section));
     setSchoolEmail(preset.school_email);
     setSubjectActivity(preset.default_subject);
     setTeacherName(preset.default_teacher);
@@ -222,14 +250,26 @@ export const MobileLoginView: React.FC<MobileLoginViewProps> = ({
       {/* SUCCESS STATE: LOGGED INTO DATABASE & VISIBLE IN ADMIN DASHBOARD    */}
       {/* =================================================================== */}
       {loggedRecord ? (
-        <div className="mt-6 bg-white border border-emerald-300 rounded-xl p-6 space-y-5">
-          <div className="flex items-start gap-3.5">
-            <CheckCircle2 className="w-7 h-7 text-[#16A34A] shrink-0 mt-0.5" />
+        <div className="mt-6 bg-white border border-emerald-300 rounded-xl p-6 space-y-5 shadow-lg">
+          <div className="flex items-start gap-4">
+            {/* Animated Celebratory Checkmark Icon with Pulse Rings & Self-Drawing Stroke */}
+            <div className="relative w-16 h-16 shrink-0 flex items-center justify-center my-0.5">
+              <div className="absolute inset-0 rounded-full bg-emerald-400/25 check-ring-pulse pointer-events-none" />
+              <div className="absolute inset-1.5 rounded-full bg-emerald-500/20 check-ring-pulse pointer-events-none" style={{ animationDelay: '0.4s' }} />
+              <div className="absolute -top-1 -right-1 text-emerald-500 text-xs check-sparkle-1 pointer-events-none">✦</div>
+              <div className="absolute -bottom-1 -left-1 text-[#F5A623] text-xs check-sparkle-2 pointer-events-none">★</div>
+              <div className="relative w-12 h-12 rounded-full bg-gradient-to-tr from-emerald-600 via-emerald-500 to-teal-400 text-white flex items-center justify-center shadow-lg shadow-emerald-500/35 check-circle-pop border-2 border-white/80">
+                <svg className="w-7 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round">
+                  <path className="check-svg-path" d="M4.5 12.75l6 6 9-13.5" />
+                </svg>
+              </div>
+            </div>
+
             <div>
-              <p className="text-xs font-mono font-bold uppercase text-[#16A34A]">
+              <p className="text-xs font-mono font-bold uppercase text-[#16A34A] bg-emerald-50 px-2.5 py-0.5 rounded-full inline-block border border-emerald-200">
                 Database Record Saved · Transaction {loggedRecord.transaction_code}
               </p>
-              <h2 className="text-xl font-bold text-slate-900 font-heading mt-0.5">
+              <h2 className="text-xl font-bold text-slate-900 font-heading mt-1">
                 Student Log-In & Equipment Checkout Confirmed
               </h2>
               <p className="text-xs text-slate-600 mt-1">
@@ -372,18 +412,19 @@ export const MobileLoginView: React.FC<MobileLoginViewProps> = ({
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
                 <label className="block text-xs font-semibold text-slate-800 mb-1">
-                  Grade Level, Strand & Section *
+                  Strand / Faculty *
                 </label>
                 <select
                   value={gradeSection}
                   onChange={(e) => setGradeSection(e.target.value)}
-                  className="w-full px-3.5 py-2.5 text-sm bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:border-[#003087] focus:bg-white"
+                  className="w-full px-3.5 py-2.5 text-sm bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:border-[#003087] focus:bg-white font-medium"
                 >
-                  {GRADE_SECTIONS.map((sec) => (
-                    <option key={sec} value={sec}>
-                      {sec}
-                    </option>
-                  ))}
+                  <optgroup label="STRANDS">
+                    <option value="STEM">STEM</option>
+                    <option value="HUMSS">HUMSS</option>
+                    <option value="ABM">ABM</option>
+                  </optgroup>
+                  <option value="FACULTY">FACULTY</option>
                 </select>
               </div>
 
@@ -431,30 +472,51 @@ export const MobileLoginView: React.FC<MobileLoginViewProps> = ({
               </div>
             </div>
 
-            <div>
-              <label className="block text-xs font-semibold text-slate-800 mb-1.5">
-                Expected Laboratory Session Duration
-              </label>
-              <div className="grid grid-cols-3 gap-2">
-                {[
-                  { label: '1 Hour Period', hours: 1 },
-                  { label: '2 Hours Lab', hours: 2 },
-                  { label: '4 Hours / Half Day', hours: 4 },
-                ].map((opt) => (
-                  <button
-                    key={opt.hours}
-                    type="button"
-                    onClick={() => setExpectedHours(opt.hours)}
-                    className={`py-2 px-3 text-xs font-semibold rounded-lg border cursor-pointer ${
-                      expectedHours === opt.hours
-                        ? 'bg-[#003087] text-white border-[#003087]'
-                        : 'bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100'
-                    }`}
-                  >
-                    {opt.label}
-                  </button>
-                ))}
+            {/* Return Date & Time Schedule (Custom Picker Only) */}
+            <div className="space-y-2">
+              <div className="flex items-center justify-between">
+                <label className="block text-xs font-semibold text-slate-800">
+                  Set Return Date & Time *
+                </label>
+                <span className="text-xs font-mono font-bold text-[#003087]">
+                  {expectedHours >= 24
+                    ? `${Math.round((expectedHours / 24) * 10) / 10} Days (${expectedHours}h)`
+                    : `${expectedHours} Hours Loan`}
+                </span>
               </div>
+
+              {/* Dedicated Custom Date & Time Picker */}
+              <div className="p-3.5 bg-blue-50/70 border border-blue-200 rounded-xl space-y-2">
+                <div className="grid grid-cols-2 gap-2.5">
+                  <div>
+                    <label className="block text-[11px] font-bold text-slate-700 mb-1">Return Date *</label>
+                    <input
+                      type="date"
+                      required
+                      min={formatLocalDateStr(new Date())}
+                      value={customReturnDate}
+                      onChange={(e) => handleCustomDateTimeInput(e.target.value, customReturnTime)}
+                      className="w-full h-10 px-2.5 text-xs font-mono bg-white border border-slate-300 rounded-xl focus:outline-none focus:border-[#003087]"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-[11px] font-bold text-slate-700 mb-1">Return Time *</label>
+                    <input
+                      type="time"
+                      required
+                      value={customReturnTime}
+                      onChange={(e) => handleCustomDateTimeInput(customReturnDate, e.target.value)}
+                      className="w-full h-10 px-2.5 text-xs font-mono bg-white border border-slate-300 rounded-xl focus:outline-none focus:border-[#003087]"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <p className="text-[11px] font-mono text-slate-700 bg-slate-50 p-2.5 rounded-lg border border-slate-200">
+                {expectedHours >= 24
+                  ? `Due back: ${new Date(`${customReturnDate}T${customReturnTime}`).toLocaleDateString([], { weekday: 'short', month: 'short', day: 'numeric' })} by ${new Date(`${customReturnDate}T${customReturnTime}`).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} (${Math.round((expectedHours / 24) * 10) / 10} days / ${expectedHours}h overnight or capstone loan)`
+                  : `Due back: ${new Date(`${customReturnDate}T${customReturnTime}`).toLocaleDateString([], { weekday: 'short', month: 'short', day: 'numeric' })} by ${new Date(`${customReturnDate}T${customReturnTime}`).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} (${expectedHours}h loan)`}
+              </p>
             </div>
 
             {/* Mandatory Safety Prerequisite Checkbox */}

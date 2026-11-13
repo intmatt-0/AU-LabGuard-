@@ -39,8 +39,8 @@
     >
       <div class="w-full max-w-md bg-white border border-slate-200 rounded-2xl p-8 shadow-2xl space-y-6">
         <div class="flex items-center gap-3.5 border-b border-slate-200 pb-5">
-          <div class="w-12 h-12 rounded-xl bg-[#003087] text-[#F5A623] font-heading font-extrabold text-lg flex items-center justify-center shrink-0">
-            AU
+          <div class="w-12 h-12 rounded-full overflow-hidden bg-white border border-slate-200 shadow-sm shrink-0 flex items-center justify-center p-0.5">
+            <img src="/images/au_seal.jpg" alt="Arellano University Official Seal" class="w-full h-full object-contain" />
           </div>
           <div>
             <p class="text-[11px] font-mono font-bold uppercase tracking-wider text-[#003087]">
@@ -118,8 +118,8 @@
         <div>
           <!-- Brand Header -->
           <div class="p-5 border-b border-slate-800 flex items-center gap-3">
-            <div class="w-9 h-9 rounded-lg bg-[#F5A623] text-[#003087] font-heading font-extrabold text-sm flex items-center justify-center">
-              AU
+            <div class="w-9 h-9 rounded-full overflow-hidden bg-white shrink-0 flex items-center justify-center p-0.5">
+              <img src="/images/au_seal.jpg" alt="Arellano University Official Seal" class="w-full h-full object-contain" />
             </div>
             <div>
               <span class="text-base font-extrabold tracking-tight text-white font-heading block leading-none">
@@ -455,7 +455,7 @@
             <input
               id="new-eq-comp"
               type="text"
-              value="Compartment A-04"
+              value="4th - 3rd Section"
               class="w-full px-3 py-2 text-xs bg-slate-50 border border-slate-200 rounded-lg"
             />
           </div>
@@ -528,7 +528,7 @@
             <div class="w-16 h-16 rounded-xl bg-white border border-slate-200 flex items-center justify-center p-1.5 shrink-0">
               <img
                 id="new-eq-img-preview"
-                src="/images/equipment/LG-EQ-002.svg"
+                src="/images/equipment/LG-EQ-001.svg"
                 alt="Preview"
                 class="max-w-full max-h-full object-contain"
               />
@@ -537,7 +537,7 @@
               <p class="text-[11px] text-slate-500 mb-1.5">
                 Or click a built-in science apparatus icon preset below:
               </p>
-              <div id="icon-preset-grid" class="grid grid-cols-5 gap-1.5"></div>
+              <div id="icon-preset-grid" class="grid grid-cols-6 gap-1.5"></div>
             </div>
           </div>
         </div>
@@ -572,16 +572,17 @@
         '/images/equipment/LG-EQ-008.svg',
         '/images/equipment/LG-EQ-009.svg',
         '/images/equipment/LG-EQ-010.svg',
+        '/images/equipment/LG-EQ-011.svg',
       ];
 
       let equipmentList = [];
       let transactionsList = [];
       let safetyStatus = { level: 'SAFE', message: '', updated_by: '' };
-      let selectedImageUrl = '/images/equipment/LG-EQ-002.svg';
+      let selectedImageUrl = '/images/equipment/LG-EQ-001.svg';
 
       function openAddEquipmentModal() {
         switchAdminTab('inventory');
-        selectedImageUrl = '/images/equipment/LG-EQ-002.svg';
+        selectedImageUrl = '/images/equipment/LG-EQ-001.svg';
         document.getElementById('new-eq-img-preview').src = selectedImageUrl;
         renderIconPresets();
         document.getElementById('add-eq-modal').classList.remove('hidden');
@@ -912,28 +913,186 @@
         fetchAdminState();
       }
 
+      function formatCsvDate(val) {
+        if (!val) return 'N/A';
+        const d = new Date(val);
+        if (isNaN(d.getTime())) return String(val);
+        const y = d.getFullYear();
+        const m = String(d.getMonth() + 1).padStart(2, '0');
+        const day = String(d.getDate()).padStart(2, '0');
+        return `${y}-${m}-${day}`;
+      }
+
+      function formatCsvTime(val) {
+        if (!val) return 'N/A';
+        const d = new Date(val);
+        if (isNaN(d.getTime())) return String(val);
+        return d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true });
+      }
+
+      function formatCsvDateTime(val) {
+        if (!val) return 'N/A';
+        const d = new Date(val);
+        if (isNaN(d.getTime())) return String(val);
+        const y = d.getFullYear();
+        const m = String(d.getMonth() + 1).padStart(2, '0');
+        const day = String(d.getDate()).padStart(2, '0');
+        const t = d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true });
+        return `${y}-${m}-${day} ${t}`;
+      }
+
       function exportLogsCsv() {
-        const headers = ['Transaction Code', 'Student Name', 'Student ID/LRN', 'Grade & Section', 'Subject', 'Teacher', 'Items', 'Time In', 'Status'];
-        const rows = transactionsList.map((t) => [
-          t.transaction_code,
-          t.student_name,
-          t.student_id_lrn,
-          t.grade_section,
-          t.subject_activity,
-          t.teacher_name,
-          (t.items || []).map((i) => `${i.quantity}x ${i.name}`).join('; '),
-          t.time_in,
-          t.status,
-        ]);
-        const csv = [headers, ...rows].map((r) => r.map((c) => `"${String(c).replace(/"/g, '""')}"`).join(',')).join('\n');
-        const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+        const now = new Date();
+        const generatedDateStr = now.toLocaleDateString([], { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+        const generatedTimeStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true });
+
+        const totalLogs = transactionsList.length;
+        const activeCount = transactionsList.filter((t) => t.status === 'Borrowed / In Lab').length;
+        const returnedCount = transactionsList.filter((t) => t.status === 'Returned / Logged Out').length;
+        const overdueCount = transactionsList.filter((t) => t.status === 'Overdue').length;
+        const totalUnitsOnLoan = transactionsList.reduce((sum, t) => {
+          const count = t.total_items_count || (t.items || []).reduce((s, i) => s + (i.quantity || 1), 0);
+          return sum + count;
+        }, 0);
+
+        // Institutional Report Header Block (Formatted for Excel/Google Sheets)
+        const headerBlock = [
+          ['ARELLANO UNIVERSITY - JOSE RIZAL CAMPUS'],
+          ['Science & Technology Laboratory Management System (LabGuard+)'],
+          ['OFFICIAL STUDENT EQUIPMENT BORROWING & ACCOUNTABILITY LOG REPORT'],
+          [`Report Generated: ${generatedDateStr} at ${generatedTimeStr}`],
+          ['Supervising Faculty / Laboratory In-Charge: Ms. Lara Marie Agustin Puertollano'],
+          [`Summary Metrics: Total Records: ${totalLogs} | Active In-Lab: ${activeCount} | Completed Returns: ${returnedCount} | Overdue Returns: ${overdueCount} | Total Units Borrowed: ${totalUnitsOnLoan}`],
+          [], // Empty row separator before table headers
+        ];
+
+        // Column Headers (Aligned with Admin Dashboard layout)
+        const tableHeaders = [
+          'Transaction ID',
+          'Current Status',
+          'Date Borrowed',
+          'Time Borrowed (Time In)',
+          'Expected Return (Due Time)',
+          'Actual Return (Time Out)',
+          'Loan Duration',
+          'Student Full Name',
+          'Student ID / LRN',
+          'Strand / Department',
+          'School Email',
+          'Subject & Lab Activity',
+          'Supervising Science Teacher',
+          'Borrowed Apparatus Items & Compartments',
+          'Total Units Borrowed',
+          'Return Condition',
+          'Remarks / Log Notes',
+        ];
+
+        // Data Rows with clean, Excel-friendly formatted dates and duration
+        const rows = transactionsList.map((t) => {
+          const dateBorrowed = formatCsvDate(t.time_in);
+          const timeBorrowed = formatCsvTime(t.time_in);
+          const expectedDue = t.expected_return
+            ? formatCsvDateTime(t.expected_return)
+            : t.time_out_expected
+            ? formatCsvDateTime(t.time_out_expected)
+            : 'Not Specified';
+          const actualReturn = t.time_out ? formatCsvDateTime(t.time_out) : 'Active In Lab (Not Yet Returned)';
+
+          let durationStr = 'N/A';
+          if (t.expected_return_hours) {
+            durationStr =
+              t.expected_return_hours >= 24
+                ? `${Math.round((t.expected_return_hours / 24) * 10) / 10} Days (${t.expected_return_hours}h)`
+                : `${t.expected_return_hours} Hours`;
+          } else if (t.time_in && (t.expected_return || t.time_out_expected)) {
+            const dueMs = new Date(t.expected_return || t.time_out_expected).getTime() - new Date(t.time_in).getTime();
+            if (dueMs > 0) {
+              const h = Math.round((dueMs / 3600000) * 10) / 10;
+              durationStr = h >= 24 ? `${Math.round((h / 24) * 10) / 10} Days (${h}h)` : `${h} Hours`;
+            }
+          }
+
+          const itemsFormatted = (t.items || [])
+            .map((i) => {
+              const qty = i.quantity || 1;
+              const comp = i.storage_compartment ? ` [${i.storage_compartment}]` : '';
+              const code = i.qr_code ? ` (${i.qr_code})` : '';
+              return `${qty}x ${i.name}${code}${comp}`;
+            })
+            .join('; ');
+
+          const totalUnits = t.total_items_count || (t.items || []).reduce((s, i) => s + (i.quantity || 1), 0);
+          const returnCondition = t.return_condition
+            ? `${t.return_condition}`
+            : t.status === 'Returned / Logged Out'
+            ? 'Good'
+            : 'N/A (Active In Lab)';
+          const remarks =
+            t.return_notes ||
+            (t.status === 'Returned / Logged Out'
+              ? 'Returned and verified in stock'
+              : t.status === 'Overdue'
+              ? 'Immediate teacher follow-up required'
+              : 'Equipment currently in use by student');
+
+          return [
+            t.transaction_code,
+            t.status,
+            dateBorrowed,
+            timeBorrowed,
+            expectedDue,
+            actualReturn,
+            durationStr,
+            t.student_name,
+            t.student_id_lrn,
+            t.grade_section,
+            t.school_email || 'N/A',
+            t.subject_activity,
+            t.teacher_name,
+            itemsFormatted,
+            totalUnits,
+            returnCondition,
+            remarks,
+          ];
+        });
+
+        const allRows = [...headerBlock, tableHeaders, ...rows];
+        const csvContent = allRows
+          .map((row) =>
+            row
+              .map((cell) => {
+                const str = cell === null || cell === undefined ? '' : String(cell);
+                return `"${str.replace(/"/g, '""')}"`;
+              })
+              .join(',')
+          )
+          .join('\r\n');
+
+        // Prepend UTF-8 BOM (\uFEFF) so Microsoft Excel opens directly with correct UTF-8 character encoding
+        const blob = new Blob(['\uFEFF' + csvContent], { type: 'text/csv;charset=utf-8;' });
         const a = document.createElement('a');
         a.href = URL.createObjectURL(blob);
-        a.download = 'LabGuard_Plus_AU_JRC_Student_Logs.csv';
+        const yyyy = now.getFullYear();
+        const mm = String(now.getMonth() + 1).padStart(2, '0');
+        const dd = String(now.getDate()).padStart(2, '0');
+        a.download = `AU_JRC_LabGuard_Student_Logs_${yyyy}-${mm}-${dd}.csv`;
         a.click();
+        URL.revokeObjectURL(a.href);
+      }
+
+      function connectAdminSocket() {
+        const proto = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+        const ws = new WebSocket(`${proto}//${window.location.host}/ws/kiosk`);
+        ws.onmessage = () => {
+          fetchAdminState();
+        };
+        ws.onclose = () => {
+          setTimeout(connectAdminSocket, 3000);
+        };
       }
 
       fetchAdminState();
+      connectAdminSocket();
     </script>
 
     <!-- Discreet Prototype Route Helper -->

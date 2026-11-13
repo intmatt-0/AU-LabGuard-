@@ -71,13 +71,15 @@ export const Header: React.FC<HeaderProps> = ({
     <div className="no-print sticky top-0 z-40">
       {/* Strict 3-Zone Top Bar Contract */}
       <header className="bg-[#003087] text-white border-b border-white/15 px-6 py-3.5 flex items-center justify-between gap-8">
-        {/* Zone 1: Single text element wordmark */}
         <button
           type="button"
           onClick={() => onSelectView('kiosk')}
-          className="text-lg font-bold tracking-tight text-white font-heading whitespace-nowrap shrink-0 text-left cursor-pointer"
+          className="flex items-center gap-2.5 text-lg font-bold tracking-tight text-white font-heading whitespace-nowrap shrink-0 text-left cursor-pointer"
         >
-          LabGuard+ Station
+          <div className="w-7 h-7 rounded-full overflow-hidden bg-white shrink-0 flex items-center justify-center p-0.5">
+            <img src="/images/au_seal.jpg" alt="Arellano University Seal" className="w-full h-full object-contain" />
+          </div>
+          <span>LabGuard+ Station</span>
         </button>
 
         {/* Zone 2: 4 concise single-line text navigation links */}
